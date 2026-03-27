@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Remnants in Stock</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: #111827;
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-btn:hover { opacity: 0.9; }
+
+        .box {
+            background: #fff;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .box h2 { margin-bottom: 12px; }
+
+        input, select, button {
+            padding: 8px;
+            margin: 4px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 14px;
+        }
+
+        button {
+            cursor: pointer;
+            background: #111827;
+            color: white;
+            border: none;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+        }
+
+        tr:nth-child(even) td {
+            background: #f9fafb;
+        }
+
+        .small {
+            font-size: 12px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <h1>Remnants in Stock</h1>
+    <button class="back-btn" id="backBtn">← Panel</button>
+</div>
+
+<div class="box">
+    <h2>Adicionar Remnant</h2>
+
+    <input id="material" placeholder="Material">
+    <input id="cor" placeholder="Cor">
+    <input id="espessura" placeholder="Espessura">
+    <input id="largura" placeholder="Largura">
+    <input id="altura" placeholder="Altura">
+
+    <select id="sessao">
+        <option value="">Sessão</option>
+        <option>RR1</option>
+        <option>RR2</option>
+        <option>RR3</option>
+        <option>RR4</option>
+        <option>RR5</option>
+        <option>RR6</option>
+    </select>
+
+    <input id="onde" placeholder="Onde (ex: A3)">
+    <input id="obs" placeholder="Obs / Job">
+
+    <button onclick="addRemnant()">Adicionar</button>
+    <span class="small">*Obrigatórios: Material, Sessão e Onde</span>
+</div>
+
+<div class="box">
+    <h2>Filtro</h2>
+    <select id="filterSessao" onchange="renderTable()">
+        <option value="">Sessão</option>
+        <option>RR1</option>
+        <option>RR2</option>
+        <option>RR3</option>
+        <option>RR4</option>
+        <option>RR5</option>
+        <option>RR6</option>
+    </select>
+
+    <input id="filterOnde" placeholder="Onde (ex: A3)" onkeyup="renderTable()">
+    <input id="filterMaterial" placeholder="Material" onkeyup="renderTable()">
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Material</th>
+        <th>Cor</th>
+        <th>Esp.</th>
+        <th>Larg.</th>
+        <th>Alt.</th>
+        <th>Sessão</th>
+        <th>Onde</th>
+        <th>Obs / Job</th>
+    </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script>
+    // ---------- LOCAL STORAGE HELPERS ----------
+    function getData() {
+        return JSON.parse(localStorage.getItem("remnants")) || [];
+    }
+
+    function saveData(data) {
+        localStorage.setItem("remnants", JSON.stringify(data));
+    }
+
+    // ---------- ADICIONAR REMNANT ----------
+    function addRemnant() {
+        const remnant = {
+            material: document.getElementById("material").value.trim(),
+            cor: document.getElementById("cor").value.trim(),
+            espessura: document.getElementById("espessura").value.trim(),
+            largura: document.getElementById("largura").value.trim(),
+            altura: document.getElementById("altura").value.trim(),
+            sessao: document.getElementById("sessao").value,
+            onde: document.getElementById("onde").value.trim(),
+            obs: document.getElementById("obs").value.trim()
+        };
+
+        if (!remnant.material || !remnant.sessao || !remnant.onde) {
+            alert("Preencha pelo menos Material, Sessão e Onde.");
+            return;
+        }
+
+        const data = getData();
+        data.push(remnant);
+        saveData(data);
+
+        // limpa campos
+        document.getElementById("material").value = "";
+        document.getElementById("cor").value = "";
+        document.getElementById("espessura").value = "";
+        document.getElementById("largura").value = "";
+        document.getElementById("altura").value = "";
+        document.getElementById("sessao").value = "";
+        document.getElementById("onde").value = "";
+        document.getElementById("obs").value = "";
+
+        renderTable();
+    }
+
+    // ---------- RENDERIZAR TABELA ----------
+    function renderTable() {
+        const tbody = document.getElementById("tableBody");
+        tbody.innerHTML = "";
+
+        const data = getData();
+        const fs = document.getElementById("filterSessao").value;
+        const fo = document.getElementById("filterOnde").value.trim().toLowerCase();
+        const fm = document.getElementById("filterMaterial").value.trim().toLowerCase();
+
+        const filtered = data.filter(r => {
+            return (!fs || r.sessao === fs) &&
+                (!fo || (r.onde || "").toLowerCase().includes(fo)) &&
+                (!fm || (r.material || "").toLowerCase().includes(fm));
+        });
+
+        filtered.forEach(r => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+          <td>${r.material || ""}</td>
+          <td>${r.cor || ""}</td>
+          <td>${r.espessura || ""}</td>
+          <td>${r.largura || ""}</td>
+          <td>${r.altura || ""}</td>
+          <td>${r.sessao || ""}</td>
+          <td>${r.onde || ""}</td>
+          <td>${r.obs || ""}</td>
+        `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // ---------- BOTÃO VOLTAR PRO PAINEL ----------
+    document.getElementById("backBtn").onclick = () => {
+        if (document.referrer) {
+            window.location.href = document.referrer;
+        } else {
+            window.history.back();
+        }
+    };
+
+    // ---------- INICIALIZAÇÃO ----------
+    renderTable();
+</script>
+
+</body>
+</html>

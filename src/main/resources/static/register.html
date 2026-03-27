@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Users - Fabrication Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .topbar {
+            background: #1e63d6;
+            color: white;
+            padding: 16px 32px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 32px auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 28px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccd3e0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            border: none;
+            border-radius: 4px;
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #1e63d6;
+            color: #fff;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .msg {
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .msg.ok {
+            color: #1a7f37;
+        }
+
+        .msg.err {
+            color: #c53030;
+        }
+
+        .quick-users {
+            margin-top: 24px;
+            border-top: 1px solid #e2e6f0;
+            padding-top: 16px;
+        }
+
+        .quick-users h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .quick-users button {
+            margin: 4px;
+            background: #f0f4ff;
+        }
+
+        .back-link {
+            margin-top: 24px;
+            font-size: 13px;
+        }
+
+        .back-link a {
+            color: #1e63d6;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="topbar">
+    User Registration - Fabrication Panel
+</div>
+
+<div class="container">
+    <h2>Create User (Seller)</h2>
+
+    <form id="registerForm">
+        <label for="username">Username</label>
+        <input id="username" name="username" placeholder="ex: kathryn" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="ex: 1234" required>
+
+        <button class="btn-primary" type="submit" id="btnRegister">Register</button>
+    </form>
+
+    <div id="msg" class="msg"></div>
+
+    <div class="quick-users">
+        <h3>Quick create sellers</h3>
+        <p>Todos com senha padrão <b>1234</b>:</p>
+        <button type="button" onclick="quickCreate('kathryn')">Create Kathryn</button>
+        <button type="button" onclick="quickCreate('debora')">Create Debora</button>
+        <button type="button" onclick="quickCreate('noreli')">Create Noreli</button>
+        <button type="button" onclick="quickCreate('ellisa')">Create Ellisa</button>
+        <button type="button" onclick="quickCreate('carlos')">Create Carlos</button>
+    </div>
+
+    <div class="back-link">
+        <a href="/login.html">← Back to Login</a>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('registerForm');
+    const btn = document.getElementById('btnRegister');
+    const msg = document.getElementById('msg');
+
+    async function callRegister(username, password) {
+        msg.textContent = '';
+        msg.className = 'msg';
+        btn.disabled = true;
+
+        try {
+            const resp = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+
+            const text = await resp.text();
+            let data;
+            try { data = JSON.parse(text); } catch (e) { data = null; }
+
+            if (!resp.ok) {
+                msg.classList.add('err');
+                msg.textContent = 'Erro: ' + (data && data.message ? data.message : text);
+            } else {
+                msg.classList.add('ok');
+                msg.textContent = 'User "' + username + '" criado com sucesso.';
+            }
+        } catch (err) {
+            msg.classList.add('err');
+            msg.textContent = 'Erro de rede: ' + err;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!username || !password) {
+            msg.className = 'msg err';
+            msg.textContent = 'Preencha username e password.';
+            return;
+        }
+
+        callRegister(username, password);
+    });
+
+    function quickCreate(username) {
+        callRegister(username, '1234');
+    }
+</script>
+</body>
+</html>

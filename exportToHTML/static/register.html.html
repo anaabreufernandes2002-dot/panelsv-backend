@@ -1,0 +1,232 @@
+<html>
+<head>
+<title>register.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #d5b778;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bababa;}
+.s3 { color: #6aab73;}
+.s4 { color: #56a8f5;}
+.s5 { color: #2aacb8;}
+.s6 { color: #cf8e6d;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+register.html</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;!DOCTYPE </span><span class="s2">html</span><span class="s0">&gt;</span>
+<span class="s0">&lt;html </span><span class="s2">lang</span><span class="s3">=&quot;en&quot;</span><span class="s0">&gt;</span>
+<span class="s0">&lt;head&gt;</span>
+    <span class="s0">&lt;meta </span><span class="s2">charset</span><span class="s3">=&quot;UTF-8&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;title&gt;</span><span class="s1">Register Users - Fabrication Panel</span><span class="s0">&lt;/title&gt;</span>
+    <span class="s0">&lt;style&gt;</span>
+        <span class="s0">body </span><span class="s1">{</span>
+            <span class="s2">font-family</span><span class="s1">: </span><span class="s3">Arial</span><span class="s1">, </span><span class="s3">sans-serif</span><span class="s1">;</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s4">#f4f7fb</span><span class="s1">;</span>
+            <span class="s2">margin</span><span class="s1">: </span><span class="s5">0</span><span class="s1">;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s5">0</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">topbar </span><span class="s1">{</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s4">#1e63d6</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s3">white</span><span class="s1">;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s5">16</span><span class="s3">px </span><span class="s5">32</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">20</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-weight</span><span class="s1">: </span><span class="s3">bold</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">container </span><span class="s1">{</span>
+            <span class="s2">max-width</span><span class="s1">: </span><span class="s5">700</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">margin</span><span class="s1">: </span><span class="s5">32</span><span class="s3">px auto</span><span class="s1">;</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s4">#ffffff</span><span class="s1">;</span>
+            <span class="s2">border-radius</span><span class="s1">: </span><span class="s5">8</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">box-shadow</span><span class="s1">: </span><span class="s5">0 2</span><span class="s3">px </span><span class="s5">8</span><span class="s3">px </span><span class="s0">rgba</span><span class="s1">(</span><span class="s5">0</span><span class="s1">,</span><span class="s5">0</span><span class="s1">,</span><span class="s5">0</span><span class="s1">,</span><span class="s5">0.08</span><span class="s1">);</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s5">24</span><span class="s3">px </span><span class="s5">28</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">h2 </span><span class="s1">{</span>
+            <span class="s2">margin-top</span><span class="s1">: </span><span class="s5">0</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s4">#333</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">label </span><span class="s1">{</span>
+            <span class="s2">display</span><span class="s1">: </span><span class="s3">block</span><span class="s1">;</span>
+            <span class="s2">margin-bottom</span><span class="s1">: </span><span class="s5">6</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">14</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s4">#555</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">input </span><span class="s1">{</span>
+            <span class="s2">width</span><span class="s1">: </span><span class="s5">100</span><span class="s1">%;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s5">8</span><span class="s3">px </span><span class="s5">10</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">margin-bottom</span><span class="s1">: </span><span class="s5">16</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">border</span><span class="s1">: </span><span class="s5">1</span><span class="s3">px solid </span><span class="s4">#ccd3e0</span><span class="s1">;</span>
+            <span class="s2">border-radius</span><span class="s1">: </span><span class="s5">4</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">14</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">button </span><span class="s1">{</span>
+            <span class="s2">border</span><span class="s1">: </span><span class="s3">none</span><span class="s1">;</span>
+            <span class="s2">border-radius</span><span class="s1">: </span><span class="s5">4</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s5">8</span><span class="s3">px </span><span class="s5">14</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">14</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">cursor</span><span class="s1">: </span><span class="s3">pointer</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">btn-primary </span><span class="s1">{</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s4">#1e63d6</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s4">#fff</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">btn-primary</span><span class="s1">:</span><span class="s0">disabled </span><span class="s1">{</span>
+            <span class="s2">opacity</span><span class="s1">: </span><span class="s5">0.6</span><span class="s1">;</span>
+            <span class="s2">cursor</span><span class="s1">: </span><span class="s3">wait</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">msg </span><span class="s1">{</span>
+            <span class="s2">margin-top</span><span class="s1">: </span><span class="s5">10</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">13</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">msg</span><span class="s1">.</span><span class="s0">ok </span><span class="s1">{</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s4">#1a7f37</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">msg</span><span class="s1">.</span><span class="s0">err </span><span class="s1">{</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s4">#c53030</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">quick-users </span><span class="s1">{</span>
+            <span class="s2">margin-top</span><span class="s1">: </span><span class="s5">24</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">border-top</span><span class="s1">: </span><span class="s5">1</span><span class="s3">px solid </span><span class="s4">#e2e6f0</span><span class="s1">;</span>
+            <span class="s2">padding-top</span><span class="s1">: </span><span class="s5">16</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">quick-users h3 </span><span class="s1">{</span>
+            <span class="s2">margin-top</span><span class="s1">: </span><span class="s5">0</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">16</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">quick-users button </span><span class="s1">{</span>
+            <span class="s2">margin</span><span class="s1">: </span><span class="s5">4</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s4">#f0f4ff</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">back-link </span><span class="s1">{</span>
+            <span class="s2">margin-top</span><span class="s1">: </span><span class="s5">24</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s5">13</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">back-link a </span><span class="s1">{</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s4">#1e63d6</span><span class="s1">;</span>
+            <span class="s2">text-decoration</span><span class="s1">: </span><span class="s3">none</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">back-link a</span><span class="s1">:</span><span class="s0">hover </span><span class="s1">{</span>
+            <span class="s2">text-decoration</span><span class="s1">: </span><span class="s3">underline</span><span class="s1">;</span>
+        <span class="s1">}</span>
+    <span class="s0">&lt;/style&gt;</span>
+<span class="s0">&lt;/head&gt;</span>
+<span class="s0">&lt;body&gt;</span>
+<span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;topbar&quot;</span><span class="s0">&gt;</span>
+    <span class="s1">User Registration - Fabrication Panel</span>
+<span class="s0">&lt;/div&gt;</span>
+
+<span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;container&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;h2&gt;</span><span class="s1">Create User (Seller)</span><span class="s0">&lt;/h2&gt;</span>
+
+    <span class="s0">&lt;form </span><span class="s2">id</span><span class="s3">=&quot;registerForm&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;label </span><span class="s2">for</span><span class="s3">=&quot;username&quot;</span><span class="s0">&gt;</span><span class="s1">Username</span><span class="s0">&lt;/label&gt;</span>
+        <span class="s0">&lt;input </span><span class="s2">id</span><span class="s3">=&quot;username&quot; </span><span class="s2">name</span><span class="s3">=&quot;username&quot; </span><span class="s2">placeholder</span><span class="s3">=&quot;ex: kathryn&quot; </span><span class="s2">required</span><span class="s0">&gt;</span>
+
+        <span class="s0">&lt;label </span><span class="s2">for</span><span class="s3">=&quot;password&quot;</span><span class="s0">&gt;</span><span class="s1">Password</span><span class="s0">&lt;/label&gt;</span>
+        <span class="s0">&lt;input </span><span class="s2">id</span><span class="s3">=&quot;password&quot; </span><span class="s2">name</span><span class="s3">=&quot;password&quot; </span><span class="s2">type</span><span class="s3">=&quot;password&quot; </span><span class="s2">placeholder</span><span class="s3">=&quot;ex: 1234&quot; </span><span class="s2">required</span><span class="s0">&gt;</span>
+
+        <span class="s0">&lt;button </span><span class="s2">class</span><span class="s3">=&quot;btn-primary&quot; </span><span class="s2">type</span><span class="s3">=&quot;submit&quot; </span><span class="s2">id</span><span class="s3">=&quot;btnRegister&quot;</span><span class="s0">&gt;</span><span class="s1">Register</span><span class="s0">&lt;/button&gt;</span>
+    <span class="s0">&lt;/form&gt;</span>
+
+    <span class="s0">&lt;div </span><span class="s2">id</span><span class="s3">=&quot;msg&quot; </span><span class="s2">class</span><span class="s3">=&quot;msg&quot;</span><span class="s0">&gt;&lt;/div&gt;</span>
+
+    <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;quick-users&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;h3&gt;</span><span class="s1">Quick create sellers</span><span class="s0">&lt;/h3&gt;</span>
+        <span class="s0">&lt;p&gt;</span><span class="s1">Todos com senha padrão </span><span class="s0">&lt;b&gt;</span><span class="s1">1234</span><span class="s0">&lt;/b&gt;</span><span class="s1">:</span><span class="s0">&lt;/p&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">type</span><span class="s3">=&quot;button&quot; </span><span class="s2">onclick</span><span class="s3">=&quot;</span><span class="s1">quickCreate(</span><span class="s3">'kathryn'</span><span class="s1">)</span><span class="s3">&quot;</span><span class="s0">&gt;</span><span class="s1">Create Kathryn</span><span class="s0">&lt;/button&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">type</span><span class="s3">=&quot;button&quot; </span><span class="s2">onclick</span><span class="s3">=&quot;</span><span class="s1">quickCreate(</span><span class="s3">'debora'</span><span class="s1">)</span><span class="s3">&quot;</span><span class="s0">&gt;</span><span class="s1">Create Debora</span><span class="s0">&lt;/button&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">type</span><span class="s3">=&quot;button&quot; </span><span class="s2">onclick</span><span class="s3">=&quot;</span><span class="s1">quickCreate(</span><span class="s3">'noreli'</span><span class="s1">)</span><span class="s3">&quot;</span><span class="s0">&gt;</span><span class="s1">Create Noreli</span><span class="s0">&lt;/button&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">type</span><span class="s3">=&quot;button&quot; </span><span class="s2">onclick</span><span class="s3">=&quot;</span><span class="s1">quickCreate(</span><span class="s3">'ellisa'</span><span class="s1">)</span><span class="s3">&quot;</span><span class="s0">&gt;</span><span class="s1">Create Ellisa</span><span class="s0">&lt;/button&gt;</span>
+        <span class="s0">&lt;button </span><span class="s2">type</span><span class="s3">=&quot;button&quot; </span><span class="s2">onclick</span><span class="s3">=&quot;</span><span class="s1">quickCreate(</span><span class="s3">'carlos'</span><span class="s1">)</span><span class="s3">&quot;</span><span class="s0">&gt;</span><span class="s1">Create Carlos</span><span class="s0">&lt;/button&gt;</span>
+    <span class="s0">&lt;/div&gt;</span>
+
+    <span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;back-link&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;a </span><span class="s2">href</span><span class="s3">=&quot;/login.html&quot;</span><span class="s0">&gt;</span><span class="s1">← Back to Login</span><span class="s0">&lt;/a&gt;</span>
+    <span class="s0">&lt;/div&gt;</span>
+<span class="s0">&lt;/div&gt;</span>
+
+<span class="s0">&lt;script&gt;</span>
+    <span class="s6">const </span><span class="s1">form = document.getElementById(</span><span class="s3">'registerForm'</span><span class="s1">);</span>
+    <span class="s6">const </span><span class="s1">btn = document.getElementById(</span><span class="s3">'btnRegister'</span><span class="s1">);</span>
+    <span class="s6">const </span><span class="s1">msg = document.getElementById(</span><span class="s3">'msg'</span><span class="s1">);</span>
+
+    <span class="s1">async </span><span class="s6">function </span><span class="s1">callRegister(username, password) {</span>
+        <span class="s1">msg.textContent = </span><span class="s3">''</span><span class="s1">;</span>
+        <span class="s1">msg.className = </span><span class="s3">'msg'</span><span class="s1">;</span>
+        <span class="s1">btn.disabled = </span><span class="s6">true</span><span class="s1">;</span>
+
+        <span class="s6">try </span><span class="s1">{</span>
+            <span class="s6">const </span><span class="s1">resp = await fetch(</span><span class="s3">'/api/auth/register'</span><span class="s1">, {</span>
+                <span class="s1">method: </span><span class="s3">'POST'</span><span class="s1">,</span>
+                <span class="s1">headers: {</span>
+                    <span class="s3">'Content-Type'</span><span class="s1">: </span><span class="s3">'application/json'</span>
+                <span class="s1">},</span>
+                <span class="s1">body: JSON.stringify({</span>
+                    <span class="s1">username: username,</span>
+                    <span class="s1">password: password</span>
+                <span class="s1">})</span>
+            <span class="s1">});</span>
+
+            <span class="s6">const </span><span class="s1">text = await resp.text();</span>
+            <span class="s6">let </span><span class="s1">data;</span>
+            <span class="s6">try </span><span class="s1">{ data = JSON.parse(text); } </span><span class="s6">catch </span><span class="s1">(e) { data = </span><span class="s6">null</span><span class="s1">; }</span>
+
+            <span class="s6">if </span><span class="s1">(!resp.ok) {</span>
+                <span class="s1">msg.classList.add(</span><span class="s3">'err'</span><span class="s1">);</span>
+                <span class="s1">msg.textContent = </span><span class="s3">'Erro: ' </span><span class="s1">+ (data &amp;&amp; data.message ? data.message : text);</span>
+            <span class="s1">} </span><span class="s6">else </span><span class="s1">{</span>
+                <span class="s1">msg.classList.add(</span><span class="s3">'ok'</span><span class="s1">);</span>
+                <span class="s1">msg.textContent = </span><span class="s3">'User &quot;' </span><span class="s1">+ username + </span><span class="s3">'&quot; criado com sucesso.'</span><span class="s1">;</span>
+            <span class="s1">}</span>
+        <span class="s1">} </span><span class="s6">catch </span><span class="s1">(err) {</span>
+            <span class="s1">msg.classList.add(</span><span class="s3">'err'</span><span class="s1">);</span>
+            <span class="s1">msg.textContent = </span><span class="s3">'Erro de rede: ' </span><span class="s1">+ err;</span>
+        <span class="s1">} </span><span class="s6">finally </span><span class="s1">{</span>
+            <span class="s1">btn.disabled = </span><span class="s6">false</span><span class="s1">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">form.addEventListener(</span><span class="s3">'submit'</span><span class="s1">, </span><span class="s6">function </span><span class="s1">(e) {</span>
+        <span class="s1">e.preventDefault();</span>
+        <span class="s6">const </span><span class="s1">username = document.getElementById(</span><span class="s3">'username'</span><span class="s1">).value.trim();</span>
+        <span class="s6">const </span><span class="s1">password = document.getElementById(</span><span class="s3">'password'</span><span class="s1">).value;</span>
+
+        <span class="s6">if </span><span class="s1">(!username || !password) {</span>
+            <span class="s1">msg.className = </span><span class="s3">'msg err'</span><span class="s1">;</span>
+            <span class="s1">msg.textContent = </span><span class="s3">'Preencha username e password.'</span><span class="s1">;</span>
+            <span class="s6">return</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">callRegister(username, password);</span>
+    <span class="s1">});</span>
+
+    <span class="s6">function </span><span class="s1">quickCreate(username) {</span>
+        <span class="s1">callRegister(username, </span><span class="s3">'1234'</span><span class="s1">);</span>
+    <span class="s1">}</span>
+<span class="s0">&lt;/script&gt;</span>
+<span class="s0">&lt;/body&gt;</span>
+<span class="s0">&lt;/html&gt;</span>
+</pre>
+</body>
+</html>

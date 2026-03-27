@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Yard Map Viewer</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: #f3f4f6;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            cursor: grab;
+        }
+
+        canvas.drawing { cursor: crosshair; }
+
+        .toolbar {
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 6px 10px;
+            border-radius: 999px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .toolbar button {
+            border: none;
+            background: #e5e7eb;
+            padding: 6px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .toolbar button:hover { background: #d1d5db; }
+
+        .toolbar button.active {
+            background: #111827;
+            color: white;
+        }
+
+        .toolbar span {
+            font-size: 13px;
+            color: #4b5563;
+            padding: 0 6px;
+        }
+
+        .back-btn {
+            background: #111827;
+            color: white;
+            font-weight: bold;
+        }
+        #mapContainer {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #mapImage {
+            transform: scale(0.47);
+            transform-origin: center center;
+            transition: transform 0.2s ease;
+        }
+
+        .back-btn:hover { background: #000000; }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <button class="back-btn" id="backBtn">← Panel</button>
+
+    <button id="zoomOutBtn">−</button>
+    <button id="zoomInBtn">+</button>
+    <span id="zoomLabel">100%</span>
+    <button id="resetBtn">Reset</button>
+    <button id="drawBtn">Draw</button>
+</div>
+
+<div id="canvas-container">
+    <canvas id="mapCanvas"></canvas>
+</div>
+
+<script>
+    const canvas = document.getElementById("mapCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    img.src = "MapaSv.png"; // sua imagem
+
+    let scale = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    let isPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+
+    let drawMode = false;
+    let isDrawing = false;
+    let currentPath = null;
+    const paths = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth - 20;
+        canvas.height = window.innerHeight - 20;
+        draw();
+    }
+
+
+
+    function clearCanvas() {
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+
+    function draw() {
+        if (!img.complete) return;
+
+        clearCanvas();
+        ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY);
+        ctx.drawImage(img, 0, 0);
+
+        ctx.lineWidth = 2 / scale;
+        ctx.strokeStyle = "#ef4444";
+
+        paths.forEach(path => {
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+        });
+    }
+    window.addEventListener('load', () => {
+        const img = document.getElementById('mapImage');
+        if (img) {
+            img.style.transform = 'scale(0.47)';
+            img.style.transformOrigin = 'center center';
+        }
+    });
+
+    function screenToWorld(x, y) {
+        return {
+            x: (x - offsetX) / scale,
+            y: (y - offsetY) / scale
+        };
+    }
+
+    function updateZoom() {
+        document.getElementById("zoomLabel").textContent =
+            Math.round(scale * 100) + "%";
+        draw();
+    }
+
+    function resetView() {
+        scale = 0.47; // zoom inicial fixo
+
+        const imgW = img.width * scale;
+        const imgH = img.height * scale;
+
+        offsetX = (canvas.width / 2) - (imgW / 2);
+        offsetY = (canvas.height / 2) - (imgH / 2);
+
+        ctx.setTransform(1,0,0,1,0,0);
+        updateZoom();
+    }
+
+
+
+
+    canvas.addEventListener("mousedown", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        if (drawMode) {
+            isDrawing = true;
+            currentPath = [];
+            currentPath.push(screenToWorld(x, y));
+            paths.push(currentPath);
+        } else {
+            isPanning = true;
+            panStartX = x - offsetX;
+            panStartY = y - offsetY;
+            canvas.style.cursor = "grabbing";
+        }
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        if (isPanning && !drawMode) {
+            offsetX = x - panStartX;
+            offsetY = y - panStartY;
+            draw();
+        }
+
+        if (isDrawing && drawMode) {
+            currentPath.push(screenToWorld(x, y));
+            draw();
+        }
+    });
+
+    canvas.addEventListener("mouseup", () => {
+        isPanning = false;
+        isDrawing = false;
+        canvas.style.cursor = drawMode ? "crosshair" : "grab";
+    });
+
+    canvas.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        scale *= e.deltaY < 0 ? 1.1 : 0.9;
+        updateZoom();
+    });
+
+    document.getElementById("zoomInBtn").onclick = () => {
+        scale *= 1.1;
+        updateZoom();
+    };
+
+    document.getElementById("zoomOutBtn").onclick = () => {
+        scale *= 0.9;
+        updateZoom();
+    };
+
+    document.getElementById("resetBtn").onclick = resetView;
+
+    document.getElementById("drawBtn").onclick = (e) => {
+        drawMode = !drawMode;
+        e.target.classList.toggle("active", drawMode);
+        canvas.classList.toggle("drawing", drawMode);
+        canvas.style.cursor = drawMode ? "crosshair" : "grab";
+    };
+
+    // 🔙 Voltar pra página anterior (painel)
+    document.getElementById("backBtn").onclick = () => {
+        if (document.referrer) {
+            window.location.href = document.referrer;
+        } else {
+            window.history.back();
+        }
+    };
+
+    img.onload = () => {
+        resizeCanvas();
+        resetView();
+        draw();
+    };
+
+
+
+    window.onresize = resizeCanvas;
+</script>
+
+</body>
+</html>

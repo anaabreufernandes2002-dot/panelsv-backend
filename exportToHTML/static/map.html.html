@@ -1,0 +1,313 @@
+<html>
+<head>
+<title>map.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #d5b778;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bababa;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+.s5 { color: #56a8f5;}
+.s6 { color: #cf8e6d;}
+.s7 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+map.html</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;!doctype </span><span class="s2">html</span><span class="s0">&gt;</span>
+<span class="s0">&lt;html </span><span class="s2">lang</span><span class="s3">=&quot;en&quot;</span><span class="s0">&gt;</span>
+<span class="s0">&lt;head&gt;</span>
+    <span class="s0">&lt;meta </span><span class="s2">charset</span><span class="s3">=&quot;utf-8&quot; </span><span class="s0">/&gt;</span>
+    <span class="s0">&lt;title&gt;</span><span class="s1">Yard Map Viewer</span><span class="s0">&lt;/title&gt;</span>
+
+    <span class="s0">&lt;style&gt;</span>
+        <span class="s0">* </span><span class="s1">{ </span><span class="s2">box-sizing</span><span class="s1">: </span><span class="s3">border-box</span><span class="s1">; }</span>
+
+        <span class="s0">body </span><span class="s1">{</span>
+            <span class="s2">margin</span><span class="s1">: </span><span class="s4">0</span><span class="s1">;</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s5">#f3f4f6</span><span class="s1">;</span>
+            <span class="s2">overflow</span><span class="s1">: </span><span class="s3">hidden</span><span class="s1">;</span>
+            <span class="s2">font-family</span><span class="s1">: </span><span class="s3">Arial</span><span class="s1">, </span><span class="s3">sans-serif</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">#canvas-container </span><span class="s1">{</span>
+            <span class="s2">width</span><span class="s1">: </span><span class="s4">100</span><span class="s3">vw</span><span class="s1">;</span>
+            <span class="s2">height</span><span class="s1">: </span><span class="s4">100</span><span class="s3">vh</span><span class="s1">;</span>
+            <span class="s2">display</span><span class="s1">: </span><span class="s3">flex</span><span class="s1">;</span>
+            <span class="s2">align-items</span><span class="s1">: </span><span class="s3">center</span><span class="s1">;</span>
+            <span class="s2">justify-content</span><span class="s1">: </span><span class="s3">center</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">canvas </span><span class="s1">{</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s5">#ffffff</span><span class="s1">;</span>
+            <span class="s2">box-shadow</span><span class="s1">: </span><span class="s4">0 10</span><span class="s3">px </span><span class="s4">25</span><span class="s3">px </span><span class="s0">rgba</span><span class="s1">(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0.2</span><span class="s1">);</span>
+            <span class="s2">border-radius</span><span class="s1">: </span><span class="s4">12</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">cursor</span><span class="s1">: </span><span class="s3">grab</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">canvas</span><span class="s1">.</span><span class="s0">drawing </span><span class="s1">{ </span><span class="s2">cursor</span><span class="s1">: </span><span class="s3">crosshair</span><span class="s1">; }</span>
+
+        <span class="s1">.</span><span class="s0">toolbar </span><span class="s1">{</span>
+            <span class="s2">position</span><span class="s1">: </span><span class="s3">fixed</span><span class="s1">;</span>
+            <span class="s2">top</span><span class="s1">: </span><span class="s4">12</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">left</span><span class="s1">: </span><span class="s4">50</span><span class="s1">%;</span>
+            <span class="s2">transform</span><span class="s1">: </span><span class="s0">translateX</span><span class="s1">(-</span><span class="s4">50</span><span class="s1">%);</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s3">white</span><span class="s1">;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s4">6</span><span class="s3">px </span><span class="s4">10</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">border-radius</span><span class="s1">: </span><span class="s4">999</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">box-shadow</span><span class="s1">: </span><span class="s4">0 8</span><span class="s3">px </span><span class="s4">20</span><span class="s3">px </span><span class="s0">rgba</span><span class="s1">(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0.2</span><span class="s1">);</span>
+            <span class="s2">display</span><span class="s1">: </span><span class="s3">flex</span><span class="s1">;</span>
+            <span class="s2">gap</span><span class="s1">: </span><span class="s4">6</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">align-items</span><span class="s1">: </span><span class="s3">center</span><span class="s1">;</span>
+            <span class="s2">z-index</span><span class="s1">: </span><span class="s4">100</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">toolbar button </span><span class="s1">{</span>
+            <span class="s2">border</span><span class="s1">: </span><span class="s3">none</span><span class="s1">;</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s5">#e5e7eb</span><span class="s1">;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s4">6</span><span class="s3">px </span><span class="s4">12</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">border-radius</span><span class="s1">: </span><span class="s4">999</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">cursor</span><span class="s1">: </span><span class="s3">pointer</span><span class="s1">;</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s4">14</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">display</span><span class="s1">: </span><span class="s3">flex</span><span class="s1">;</span>
+            <span class="s2">align-items</span><span class="s1">: </span><span class="s3">center</span><span class="s1">;</span>
+            <span class="s2">gap</span><span class="s1">: </span><span class="s4">4</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">toolbar button</span><span class="s1">:</span><span class="s0">hover </span><span class="s1">{ </span><span class="s2">background</span><span class="s1">: </span><span class="s5">#d1d5db</span><span class="s1">; }</span>
+
+        <span class="s1">.</span><span class="s0">toolbar button</span><span class="s1">.</span><span class="s0">active </span><span class="s1">{</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s5">#111827</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s3">white</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">toolbar span </span><span class="s1">{</span>
+            <span class="s2">font-size</span><span class="s1">: </span><span class="s4">13</span><span class="s3">px</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s5">#4b5563</span><span class="s1">;</span>
+            <span class="s2">padding</span><span class="s1">: </span><span class="s4">0 6</span><span class="s3">px</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">back-btn </span><span class="s1">{</span>
+            <span class="s2">background</span><span class="s1">: </span><span class="s5">#111827</span><span class="s1">;</span>
+            <span class="s2">color</span><span class="s1">: </span><span class="s3">white</span><span class="s1">;</span>
+            <span class="s2">font-weight</span><span class="s1">: </span><span class="s3">bold</span><span class="s1">;</span>
+        <span class="s1">}</span>
+        <span class="s0">#mapContainer </span><span class="s1">{</span>
+            <span class="s2">width</span><span class="s1">: </span><span class="s4">100</span><span class="s1">%;</span>
+            <span class="s2">height</span><span class="s1">: </span><span class="s4">100</span><span class="s3">vh</span><span class="s1">;</span>
+            <span class="s2">overflow</span><span class="s1">: </span><span class="s3">hidden</span><span class="s1">;</span>
+            <span class="s2">display</span><span class="s1">: </span><span class="s3">flex</span><span class="s1">;</span>
+            <span class="s2">justify-content</span><span class="s1">: </span><span class="s3">center</span><span class="s1">;</span>
+            <span class="s2">align-items</span><span class="s1">: </span><span class="s3">center</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">#mapImage </span><span class="s1">{</span>
+            <span class="s2">transform</span><span class="s1">: </span><span class="s0">scale</span><span class="s1">(</span><span class="s4">0.47</span><span class="s1">);</span>
+            <span class="s2">transform-origin</span><span class="s1">: </span><span class="s3">center center</span><span class="s1">;</span>
+            <span class="s2">transition</span><span class="s1">: </span><span class="s3">transform </span><span class="s4">0.2</span><span class="s3">s ease</span><span class="s1">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">.</span><span class="s0">back-btn</span><span class="s1">:</span><span class="s0">hover </span><span class="s1">{ </span><span class="s2">background</span><span class="s1">: </span><span class="s5">#000000</span><span class="s1">; }</span>
+    <span class="s0">&lt;/style&gt;</span>
+<span class="s0">&lt;/head&gt;</span>
+<span class="s0">&lt;body&gt;</span>
+
+<span class="s0">&lt;div </span><span class="s2">class</span><span class="s3">=&quot;toolbar&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;button </span><span class="s2">class</span><span class="s3">=&quot;back-btn&quot; </span><span class="s2">id</span><span class="s3">=&quot;backBtn&quot;</span><span class="s0">&gt;</span><span class="s1">← Panel</span><span class="s0">&lt;/button&gt;</span>
+
+    <span class="s0">&lt;button </span><span class="s2">id</span><span class="s3">=&quot;zoomOutBtn&quot;</span><span class="s0">&gt;</span><span class="s1">−</span><span class="s0">&lt;/button&gt;</span>
+    <span class="s0">&lt;button </span><span class="s2">id</span><span class="s3">=&quot;zoomInBtn&quot;</span><span class="s0">&gt;</span><span class="s1">+</span><span class="s0">&lt;/button&gt;</span>
+    <span class="s0">&lt;span </span><span class="s2">id</span><span class="s3">=&quot;zoomLabel&quot;</span><span class="s0">&gt;</span><span class="s1">100%</span><span class="s0">&lt;/span&gt;</span>
+    <span class="s0">&lt;button </span><span class="s2">id</span><span class="s3">=&quot;resetBtn&quot;</span><span class="s0">&gt;</span><span class="s1">Reset</span><span class="s0">&lt;/button&gt;</span>
+    <span class="s0">&lt;button </span><span class="s2">id</span><span class="s3">=&quot;drawBtn&quot;</span><span class="s0">&gt;</span><span class="s1">Draw</span><span class="s0">&lt;/button&gt;</span>
+<span class="s0">&lt;/div&gt;</span>
+
+<span class="s0">&lt;div </span><span class="s2">id</span><span class="s3">=&quot;canvas-container&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;canvas </span><span class="s2">id</span><span class="s3">=&quot;mapCanvas&quot;</span><span class="s0">&gt;&lt;/canvas&gt;</span>
+<span class="s0">&lt;/div&gt;</span>
+
+<span class="s0">&lt;script&gt;</span>
+    <span class="s6">const </span><span class="s1">canvas = document.getElementById(</span><span class="s3">&quot;mapCanvas&quot;</span><span class="s1">);</span>
+    <span class="s6">const </span><span class="s1">ctx = canvas.getContext(</span><span class="s3">&quot;2d&quot;</span><span class="s1">);</span>
+
+    <span class="s6">const </span><span class="s1">img = </span><span class="s6">new </span><span class="s1">Image();</span>
+    <span class="s1">img.src = </span><span class="s3">&quot;MapaSv.png&quot;</span><span class="s1">; </span><span class="s7">// sua imagem</span>
+
+    <span class="s6">let </span><span class="s1">scale = </span><span class="s4">1</span><span class="s1">;</span>
+    <span class="s6">let </span><span class="s1">offsetX = </span><span class="s4">0</span><span class="s1">;</span>
+    <span class="s6">let </span><span class="s1">offsetY = </span><span class="s4">0</span><span class="s1">;</span>
+
+    <span class="s6">let </span><span class="s1">isPanning = </span><span class="s6">false</span><span class="s1">;</span>
+    <span class="s6">let </span><span class="s1">panStartX = </span><span class="s4">0</span><span class="s1">;</span>
+    <span class="s6">let </span><span class="s1">panStartY = </span><span class="s4">0</span><span class="s1">;</span>
+
+    <span class="s6">let </span><span class="s1">drawMode = </span><span class="s6">false</span><span class="s1">;</span>
+    <span class="s6">let </span><span class="s1">isDrawing = </span><span class="s6">false</span><span class="s1">;</span>
+    <span class="s6">let </span><span class="s1">currentPath = </span><span class="s6">null</span><span class="s1">;</span>
+    <span class="s6">const </span><span class="s1">paths = [];</span>
+
+    <span class="s6">function </span><span class="s1">resizeCanvas() {</span>
+        <span class="s1">canvas.width = window.innerWidth - </span><span class="s4">20</span><span class="s1">;</span>
+        <span class="s1">canvas.height = window.innerHeight - </span><span class="s4">20</span><span class="s1">;</span>
+        <span class="s1">draw();</span>
+    <span class="s1">}</span>
+
+
+
+    <span class="s6">function </span><span class="s1">clearCanvas() {</span>
+        <span class="s1">ctx.setTransform(</span><span class="s4">1</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">1</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">);</span>
+        <span class="s1">ctx.clearRect(</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,canvas.width,canvas.height);</span>
+    <span class="s1">}</span>
+
+    <span class="s6">function </span><span class="s1">draw() {</span>
+        <span class="s6">if </span><span class="s1">(!img.complete) </span><span class="s6">return</span><span class="s1">;</span>
+
+        <span class="s1">clearCanvas();</span>
+        <span class="s1">ctx.setTransform(scale, </span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">, scale, offsetX, offsetY);</span>
+        <span class="s1">ctx.drawImage(img, </span><span class="s4">0</span><span class="s1">, </span><span class="s4">0</span><span class="s1">);</span>
+
+        <span class="s1">ctx.lineWidth = </span><span class="s4">2 </span><span class="s1">/ scale;</span>
+        <span class="s1">ctx.strokeStyle = </span><span class="s3">&quot;#ef4444&quot;</span><span class="s1">;</span>
+
+        <span class="s1">paths.forEach(path =&gt; {</span>
+            <span class="s1">ctx.beginPath();</span>
+            <span class="s1">ctx.moveTo(path[</span><span class="s4">0</span><span class="s1">].x, path[</span><span class="s4">0</span><span class="s1">].y);</span>
+            <span class="s6">for </span><span class="s1">(</span><span class="s6">let </span><span class="s1">i = </span><span class="s4">1</span><span class="s1">; i &lt; path.length; i++) {</span>
+                <span class="s1">ctx.lineTo(path[i].x, path[i].y);</span>
+            <span class="s1">}</span>
+            <span class="s1">ctx.stroke();</span>
+        <span class="s1">});</span>
+    <span class="s1">}</span>
+    <span class="s1">window.addEventListener(</span><span class="s3">'load'</span><span class="s1">, () =&gt; {</span>
+        <span class="s6">const </span><span class="s1">img = document.getElementById(</span><span class="s3">'mapImage'</span><span class="s1">);</span>
+        <span class="s6">if </span><span class="s1">(img) {</span>
+            <span class="s1">img.style.transform = </span><span class="s3">'scale(0.47)'</span><span class="s1">;</span>
+            <span class="s1">img.style.transformOrigin = </span><span class="s3">'center center'</span><span class="s1">;</span>
+        <span class="s1">}</span>
+    <span class="s1">});</span>
+
+    <span class="s6">function </span><span class="s1">screenToWorld(x, y) {</span>
+        <span class="s6">return </span><span class="s1">{</span>
+            <span class="s1">x: (x - offsetX) / scale,</span>
+            <span class="s1">y: (y - offsetY) / scale</span>
+        <span class="s1">};</span>
+    <span class="s1">}</span>
+
+    <span class="s6">function </span><span class="s1">updateZoom() {</span>
+        <span class="s1">document.getElementById(</span><span class="s3">&quot;zoomLabel&quot;</span><span class="s1">).textContent =</span>
+            <span class="s1">Math.round(scale * </span><span class="s4">100</span><span class="s1">) + </span><span class="s3">&quot;%&quot;</span><span class="s1">;</span>
+        <span class="s1">draw();</span>
+    <span class="s1">}</span>
+
+    <span class="s6">function </span><span class="s1">resetView() {</span>
+        <span class="s1">scale = </span><span class="s4">0.47</span><span class="s1">; </span><span class="s7">// zoom inicial fixo</span>
+
+        <span class="s6">const </span><span class="s1">imgW = img.width * scale;</span>
+        <span class="s6">const </span><span class="s1">imgH = img.height * scale;</span>
+
+        <span class="s1">offsetX = (canvas.width / </span><span class="s4">2</span><span class="s1">) - (imgW / </span><span class="s4">2</span><span class="s1">);</span>
+        <span class="s1">offsetY = (canvas.height / </span><span class="s4">2</span><span class="s1">) - (imgH / </span><span class="s4">2</span><span class="s1">);</span>
+
+        <span class="s1">ctx.setTransform(</span><span class="s4">1</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">1</span><span class="s1">,</span><span class="s4">0</span><span class="s1">,</span><span class="s4">0</span><span class="s1">);</span>
+        <span class="s1">updateZoom();</span>
+    <span class="s1">}</span>
+
+
+
+
+    <span class="s1">canvas.addEventListener(</span><span class="s3">&quot;mousedown&quot;</span><span class="s1">, (e) =&gt; {</span>
+        <span class="s6">const </span><span class="s1">rect = canvas.getBoundingClientRect();</span>
+        <span class="s6">const </span><span class="s1">x = e.clientX - rect.left;</span>
+        <span class="s6">const </span><span class="s1">y = e.clientY - rect.top;</span>
+
+        <span class="s6">if </span><span class="s1">(drawMode) {</span>
+            <span class="s1">isDrawing = </span><span class="s6">true</span><span class="s1">;</span>
+            <span class="s1">currentPath = [];</span>
+            <span class="s1">currentPath.push(screenToWorld(x, y));</span>
+            <span class="s1">paths.push(currentPath);</span>
+        <span class="s1">} </span><span class="s6">else </span><span class="s1">{</span>
+            <span class="s1">isPanning = </span><span class="s6">true</span><span class="s1">;</span>
+            <span class="s1">panStartX = x - offsetX;</span>
+            <span class="s1">panStartY = y - offsetY;</span>
+            <span class="s1">canvas.style.cursor = </span><span class="s3">&quot;grabbing&quot;</span><span class="s1">;</span>
+        <span class="s1">}</span>
+    <span class="s1">});</span>
+
+    <span class="s1">canvas.addEventListener(</span><span class="s3">&quot;mousemove&quot;</span><span class="s1">, (e) =&gt; {</span>
+        <span class="s6">const </span><span class="s1">rect = canvas.getBoundingClientRect();</span>
+        <span class="s6">const </span><span class="s1">x = e.clientX - rect.left;</span>
+        <span class="s6">const </span><span class="s1">y = e.clientY - rect.top;</span>
+
+        <span class="s6">if </span><span class="s1">(isPanning &amp;&amp; !drawMode) {</span>
+            <span class="s1">offsetX = x - panStartX;</span>
+            <span class="s1">offsetY = y - panStartY;</span>
+            <span class="s1">draw();</span>
+        <span class="s1">}</span>
+
+        <span class="s6">if </span><span class="s1">(isDrawing &amp;&amp; drawMode) {</span>
+            <span class="s1">currentPath.push(screenToWorld(x, y));</span>
+            <span class="s1">draw();</span>
+        <span class="s1">}</span>
+    <span class="s1">});</span>
+
+    <span class="s1">canvas.addEventListener(</span><span class="s3">&quot;mouseup&quot;</span><span class="s1">, () =&gt; {</span>
+        <span class="s1">isPanning = </span><span class="s6">false</span><span class="s1">;</span>
+        <span class="s1">isDrawing = </span><span class="s6">false</span><span class="s1">;</span>
+        <span class="s1">canvas.style.cursor = drawMode ? </span><span class="s3">&quot;crosshair&quot; </span><span class="s1">: </span><span class="s3">&quot;grab&quot;</span><span class="s1">;</span>
+    <span class="s1">});</span>
+
+    <span class="s1">canvas.addEventListener(</span><span class="s3">&quot;wheel&quot;</span><span class="s1">, (e) =&gt; {</span>
+        <span class="s1">e.preventDefault();</span>
+        <span class="s1">scale *= e.deltaY &lt; </span><span class="s4">0 </span><span class="s1">? </span><span class="s4">1.1 </span><span class="s1">: </span><span class="s4">0.9</span><span class="s1">;</span>
+        <span class="s1">updateZoom();</span>
+    <span class="s1">});</span>
+
+    <span class="s1">document.getElementById(</span><span class="s3">&quot;zoomInBtn&quot;</span><span class="s1">).onclick = () =&gt; {</span>
+        <span class="s1">scale *= </span><span class="s4">1.1</span><span class="s1">;</span>
+        <span class="s1">updateZoom();</span>
+    <span class="s1">};</span>
+
+    <span class="s1">document.getElementById(</span><span class="s3">&quot;zoomOutBtn&quot;</span><span class="s1">).onclick = () =&gt; {</span>
+        <span class="s1">scale *= </span><span class="s4">0.9</span><span class="s1">;</span>
+        <span class="s1">updateZoom();</span>
+    <span class="s1">};</span>
+
+    <span class="s1">document.getElementById(</span><span class="s3">&quot;resetBtn&quot;</span><span class="s1">).onclick = resetView;</span>
+
+    <span class="s1">document.getElementById(</span><span class="s3">&quot;drawBtn&quot;</span><span class="s1">).onclick = (e) =&gt; {</span>
+        <span class="s1">drawMode = !drawMode;</span>
+        <span class="s1">e.target.classList.toggle(</span><span class="s3">&quot;active&quot;</span><span class="s1">, drawMode);</span>
+        <span class="s1">canvas.classList.toggle(</span><span class="s3">&quot;drawing&quot;</span><span class="s1">, drawMode);</span>
+        <span class="s1">canvas.style.cursor = drawMode ? </span><span class="s3">&quot;crosshair&quot; </span><span class="s1">: </span><span class="s3">&quot;grab&quot;</span><span class="s1">;</span>
+    <span class="s1">};</span>
+
+    <span class="s7">// 🔙 Voltar pra página anterior (painel)</span>
+    <span class="s1">document.getElementById(</span><span class="s3">&quot;backBtn&quot;</span><span class="s1">).onclick = () =&gt; {</span>
+        <span class="s6">if </span><span class="s1">(document.referrer) {</span>
+            <span class="s1">window.location.href = document.referrer;</span>
+        <span class="s1">} </span><span class="s6">else </span><span class="s1">{</span>
+            <span class="s1">window.history.back();</span>
+        <span class="s1">}</span>
+    <span class="s1">};</span>
+
+    <span class="s1">img.onload = () =&gt; {</span>
+        <span class="s1">resizeCanvas();</span>
+        <span class="s1">resetView();</span>
+        <span class="s1">draw();</span>
+    <span class="s1">};</span>
+
+
+
+    <span class="s1">window.onresize = resizeCanvas;</span>
+<span class="s0">&lt;/script&gt;</span>
+
+<span class="s0">&lt;/body&gt;</span>
+<span class="s0">&lt;/html&gt;</span>
+</pre>
+</body>
+</html>

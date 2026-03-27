@@ -1,0 +1,2577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <title>Fabrication Tracking Panel - Stone Valley</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #e5e7eb;
+            color: #111827;
+        }
+
+        .topbar {
+            background: linear-gradient(90deg, #0b1120, #1d4ed8);
+            color: white;
+            padding: 12px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.35);
+            border-bottom: 2px solid #ef4444;
+        }
+
+        .topbar-title {
+            font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .topbar-title span:last-child {
+            font-weight: 700;
+            color: #bfdbfe;
+        }
+
+        .topbar-right {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topbar-right span {
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            padding: 5px 11px;
+            border-radius: 999px;
+            border: 1px solid #fecaca;
+            background-color: rgba(248, 113, 113, 0.18);
+            color: #fee2e2;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: rgba(248, 113, 113, 0.26);
+            border-color: #fca5a5;
+            transform: translateY(-0.5px);
+        }
+
+        .container {
+            padding: 20px 22px 32px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 8px 22px rgba(15,23,42,0.08);
+            padding: 16px 18px 18px;
+            margin-bottom: 18px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: "Poppins", sans-serif;
+            color: #0f172a;
+        }
+
+        .field-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .field {
+            flex: 1;
+            margin-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 3px;
+            color: #4b5563;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 13px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 1px rgba(37,99,235,0.25);
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-primary.editing {
+            background-color: #15803d;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 7px 14px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .btn-danger {
+            background-color: #b91c1c;
+            color: #fff;
+        }
+
+        .btn-sm {
+            border-radius: 999px;
+            border: 1px solid transparent;
+            padding: 4px 9px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .btn-outline-success {
+            border-color: #16a34a;
+            color: #166534;
+            background: #ecfdf3;
+        }
+
+        .btn-outline-warning {
+            border-color: #eab308;
+            color: #854d0e;
+            background: #fefce8;
+        }
+
+        .btn-outline-danger {
+            border-color: #b91c1c;
+            color: #7f1d1d;
+            background: #fef2f2;
+        }
+
+        .btn-sm:hover {
+            filter: brightness(0.96);
+        }
+
+        .error-text {
+            font-size: 12px;
+            color: #b91c1c;
+            margin-bottom: 4px;
+        }
+
+        .hint-text {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* AUTOCOMPLETE */
+        .autocomplete-wrapper {
+            position: relative;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(15,23,42,0.15);
+            border: 1px solid #e5e7eb;
+            margin-top: 2px;
+            z-index: 20;
+            max-height: 180px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .suggestion-item {
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #eff6ff;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            font-size: 13.5px;
+        }
+
+        thead {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #6b7280;
+        }
+
+        th {
+            padding: 4px 8px;
+            border-bottom: none;
+            text-align: left;
+        }
+
+        tbody tr {
+            background-color: #ffffff;
+            box-shadow: 0 2px 6px rgba(15,23,42,0.04);
+        }
+
+        tbody td {
+            padding: 7px 8px 8px;
+            border-bottom: none;
+            line-height: 1.5;
+            vertical-align: top;
+        }
+
+        tbody tr td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        tbody tr td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .table-empty {
+            text-align: center;
+            padding: 12px 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: 1px solid #c7d2fe;
+            background: #e0e7ff;
+            font-size: 12px;
+            cursor: pointer;
+            color: #1d4ed8;
+        }
+
+        .tab-btn.active {
+            background: #1d4ed8;
+            color: #fff;
+            border-color: #1d4ed8;
+        }
+
+        #activeCard,
+        #completedCard,
+        #remnantsCard,
+        #soldRemnantsCard,
+        #usedUpCard {
+            margin-top: 12px;
+        }
+
+        .priority-pill {
+            display: inline-block;
+            margin-top: 3px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .priority-overdue {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .priority-urgent {
+            background-color: #ffedd5;
+            color: #c2410c;
+        }
+
+        .priority-soon {
+            background-color: #fef9c3;
+            color: #854d0e;
+        }
+
+        .priority-scheduled {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        tr.row-overdue td:first-child {
+            border-left: 4px solid #ef4444;
+        }
+
+        tr.row-urgent td:first-child {
+            border-left: 4px solid #f97316;
+        }
+
+        tr.row-soon td:first-child {
+            border-left: 4px solid #eab308;
+        }
+
+        tr.row-scheduled td:first-child {
+            border-left: 4px solid #22c55e;
+        }
+
+        .remnant-note-left {
+            color: #16a34a;
+            font-weight: 500;
+        }
+
+        .remnant-note-none {
+            color: #b91c1c;
+            font-weight: 500;
+        }
+
+        #remnantLocation {
+            font-size: 12px;
+        }
+
+        .location-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .loc-tab {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid #d4d4d8;
+            background: #f4f4f5;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .loc-tab.active {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #fff;
+        }
+
+        .new-pill {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 600;
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .remnant-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .remnant-options label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .remnant-options input {
+            margin: 0;
+        }
+
+        .tag-onhold {
+            display: inline-block;
+            margin-top: 3px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 500;
+            background-color: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .btn-outline-hold {
+            border-color: #8b5cf6;
+            color: #4c1d95;
+            background: #ede9fe;
+        }
+
+        .tag-blue{
+            display:inline-block;
+            padding:2px 7px;
+            border-radius:999px;
+            font-size:10px;
+            font-weight:600;
+            background:#dbeafe;
+            color:#1d4ed8;
+            border:1px solid #93c5fd;
+            margin-left:6px;
+        }
+
+        .attachment-cell {
+            min-width: 180px;
+        }
+
+        .attachment-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 6px;
+            margin-bottom: 6px;
+            background: #fafafa;
+        }
+
+        .attachment-thumb {
+            width: 60px;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .attachment-link {
+            display: inline-block;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .attachment-name {
+            font-size: 11px;
+            color: #4b5563;
+            word-break: break-word;
+            margin-bottom: 4px;
+        }
+
+        .attachment-actions {
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="topbar">
+    <div class="topbar-title">
+        <span>Fabrication Tracking Panel</span>
+        <span>Stone Valley</span>
+    </div>
+    <div class="topbar-right">
+        Logged in as <span id="currentUser">Unknown</span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div class="container">
+    <!-- FORM PRINCIPAL -->
+    <div class="card" id="jobFormCard">
+        <div class="card-title">New Job / Edit Job</div>
+        <div id="newJobError" class="error-text"></div>
+
+        <div class="field-row">
+            <div class="field autocomplete-wrapper">
+                <label for="contractor">Contractor</label>
+                <input id="contractor" type="text" autocomplete="off" />
+                <div class="suggestions" id="contractorSuggestions"></div>
+            </div>
+            <div class="field">
+                <label for="customer">Customer</label>
+                <input id="customer" type="text" />
+            </div>
+        </div>
+
+        <div class="field" id="holdReasonContainer" style="display:none;">
+            <label for="holdReason">Hold Reason</label>
+            <input id="holdReason" type="text" placeholder="Why is this job on hold?" />
+        </div>
+
+        <div class="field-row">
+            <div class="field autocomplete-wrapper">
+                <label for="material">Material</label>
+                <input id="material" type="text" autocomplete="off" />
+                <div class="suggestions" id="materialSuggestions"></div>
+            </div>
+            <div class="field">
+                <label for="stage">Stage</label>
+                <select id="stage">
+                    <option value="TO_BE_LOCATED">To Be Located</option>
+                    <option value="LOCATED">Located</option>
+                    <option value="PROGRAMMED">Programmed</option>
+                    <option value="CUT">Cut</option>
+                    <option value="POLISHED">Polished</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label for="installDate">Install Date</label>
+                <input id="installDate" type="date" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="notes">Notes</label>
+            <input id="notes" type="text" />
+        </div>
+
+        <div class="field">
+            <label for="jobAttachment">Attachments (image or PDF)</label>
+            <input id="jobAttachment" type="file" accept="image/*,application/pdf" multiple />
+            <div class="hint-text">You can select more than one file.</div>
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label>Remnants</label>
+                <div class="remnant-options">
+                    <label>
+                        <input type="radio" name="remnantOption" value="unknown" checked>
+                        Not specified
+                    </label>
+                    <label>
+                        <input type="radio" name="remnantOption" value="left">
+                        Leftover remnant
+                    </label>
+                    <label>
+                        <input type="radio" name="remnantOption" value="none">
+                        No remnants were left
+                    </label>
+                </div>
+            </div>
+            <div class="field">
+                <label for="remnantSize">Remnant size (if left)</label>
+                <input id="remnantSize" type="text" placeholder='ex: 60" x 30"' />
+            </div>
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label for="remnantLocation">Location (rack / section)</label>
+                <select id="remnantLocation">
+                    <option value="">-- Not set --</option>
+
+                    <optgroup label="Remnants Racks">
+                        <option value="RR1-S1">RR1 - Section 1</option>
+                        <option value="RR1-S2">RR1 - Section 2</option>
+                        <option value="RR1-S3">RR1 - Section 3</option>
+
+                        <option value="RR2-S1">RR2 - Section 1</option>
+                        <option value="RR2-S2">RR2 - Section 2</option>
+                        <option value="RR2-S3">RR2 - Section 3</option>
+
+                        <option value="RR3-S1">RR3 - Section 1</option>
+                        <option value="RR3-S2">RR3 - Section 2</option>
+                        <option value="RR3-S3">RR3 - Section 3</option>
+
+                        <option value="RR4-S1">RR4 - Section 1</option>
+                        <option value="RR4-S2">RR4 - Section 2</option>
+                        <option value="RR4-S3">RR4 - Section 3</option>
+
+                        <option value="RR5">RR5 (New Remnant Rack)</option>
+                        <option value="RR6">RR6 (New Remnant Rack)</option>
+                        <option value="ON-HOLD">On Hold (RR5/RR6)</option>
+                    </optgroup>
+
+                    <optgroup label="Slabs Racks">
+                        <option value="SL1-S1">SL-1 - Section 1</option>
+                        <option value="SL1-S2">SL-1 - Section 2</option>
+                        <option value="SL1-S3">SL-1 - Section 3</option>
+
+                        <option value="SL2-S1">SL-2 - Section 1</option>
+                        <option value="SL2-S2">SL-2 - Section 2</option>
+                        <option value="SL2-S3">SL-2 - Section 3</option>
+                    </optgroup>
+
+                    <optgroup label="Special Areas">
+                        <option value="QZ">Quartzite Slabs - Yet to be done</option>
+                        <option value="MB-DISPLAY">Marble Display Slabs</option>
+                        <option value="QZ-DISPLAY">Quartz Display Slabs</option>
+                        <option value="RACK-SOLD-1">Rack Sold - 1</option>
+                        <option value="RACK-SOLD-2">Rack Sold - 2</option>
+                        <option value="POLISH">Polishing Area</option>
+                        <option value="CUT">Cutting Area</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+
+        <button id="addJobBtn" class="btn-primary" type="button" onclick="handleNewJobSubmit()">
+            Add Job
+        </button>
+        <button id="cancelEditBtn" class="btn-secondary" type="button" style="display:none;"
+                onclick="cancelEdit()">
+            Cancel Edit
+        </button>
+        <button id="deleteJobBtn" class="btn-secondary btn-danger" type="button" style="display:none;"
+                onclick="deleteCurrentJob()">
+            Delete Job
+        </button>
+    </div>
+
+    <!-- LISTAS -->
+    <div class="card">
+        <div class="tabs">
+            <button id="tabActive" class="tab-btn active" type="button" onclick="showTab('active')">
+                Active Jobs
+            </button>
+            <button id="tabCompleted" class="tab-btn" type="button" onclick="showTab('completed')">
+                Completed Jobs
+            </button>
+            <button id="tabRemnants" class="tab-btn" type="button" onclick="showTab('remnants')">
+                Stock Material
+            </button>
+            <button id="tabSoldRemnants" class="tab-btn" type="button" onclick="showTab('sold')">
+                Sold Material
+            </button>
+            <button id="tabUsedUp" class="tab-btn" type="button" onclick="showTab('usedup')">
+                Used Up History
+            </button>
+            <button class="tab-btn" type="button" onclick="window.location.href='/map.html'">
+                Mapa
+            </button>
+        </div>
+
+        <!-- ACTIVE -->
+        <div id="activeCard">
+            <div class="card-title">Active Jobs</div>
+            <div id="activeJobsError" class="error-text"></div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="filterContractor">Filter by Contractor</label>
+                    <input id="filterContractor" type="text" />
+                </div>
+                <div class="field">
+                    <label for="filterMaterial">Filter by Material</label>
+                    <input id="filterMaterial" type="text" />
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 40px;">ID</th>
+                    <th>Contractor</th>
+                    <th>Customer</th>
+                    <th>Material</th>
+                    <th>Seller</th>
+                    <th>Stage</th>
+                    <th>Install Date</th>
+                    <th>Notes</th>
+                    <th>Attachments</th>
+                    <th style="width: 240px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="activeJobsBody">
+                <tr><td colspan="10" class="table-empty">No jobs</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- COMPLETED -->
+        <div id="completedCard" style="display:none;">
+            <div class="card-title">Completed Jobs</div>
+            <div id="completedJobsError" class="error-text"></div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="filterContractorCompleted">Filter by Contractor</label>
+                    <input id="filterContractorCompleted" type="text" />
+                </div>
+                <div class="field">
+                    <label for="filterMaterialCompleted">Filter by Material</label>
+                    <input id="filterMaterialCompleted" type="text" />
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 40px;">ID</th>
+                    <th>Contractor</th>
+                    <th>Customer</th>
+                    <th>Material</th>
+                    <th>Seller</th>
+                    <th>Stage</th>
+                    <th>Install Date</th>
+                    <th>Notes</th>
+                    <th>Attachments</th>
+                    <th style="width: 210px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="completedJobsBody">
+                <tr><td colspan="10" class="table-empty">No jobs yet</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- STOCK MATERIAL -->
+        <div id="remnantsCard" style="display:none;">
+            <div class="card" style="background-color:#f9fafb; margin-bottom:14px;">
+                <div class="card-title">Add Material to Stock</div>
+                <div id="newRemnantError" class="error-text"></div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="remFormContractor">Contractor</label>
+                        <input id="remFormContractor" type="text" placeholder="ex: REMNANT STOCK" />
+                    </div>
+                    <div class="field">
+                        <label for="remFormCustomer">Customer</label>
+                        <input id="remFormCustomer" type="text" />
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="remFormMaterial">Material</label>
+                        <input id="remFormMaterial" type="text" />
+                    </div>
+                    <div class="field">
+                        <label for="remFormSize">Size (remnant / slab)</label>
+                        <input id="remFormSize" type="text" placeholder='ex: 60" x 30" or "126 x 63"' />
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="remFormLocation">Location (rack / section)</label>
+                        <select id="remFormLocation">
+                            <option value="">-- Select location --</option>
+
+                            <optgroup label="Remnants Racks">
+                                <option value="RR1-S1">RR1 - Section 1</option>
+                                <option value="RR1-S2">RR1 - Section 2</option>
+                                <option value="RR1-S3">RR1 - Section 3</option>
+
+                                <option value="RR2-S1">RR2 - Section 1</option>
+                                <option value="RR2-S2">RR2 - Section 2</option>
+                                <option value="RR2-S3">RR2 - Section 3</option>
+
+                                <option value="RR3-S1">RR3 - Section 1</option>
+                                <option value="RR3-S2">RR3 - Section 2</option>
+                                <option value="RR3-S3">RR3 - Section 3</option>
+
+                                <option value="RR4-S1">RR4 - Section 1</option>
+                                <option value="RR4-S2">RR4 - Section 2</option>
+                                <option value="RR4-S3">RR4 - Section 3</option>
+
+                                <option value="RR5">RR5 (New Remnant Rack)</option>
+                                <option value="RR6">RR6 (New Remnant Rack)</option>
+                                <option value="ON-HOLD">On Hold (RR5/RR6)</option>
+                            </optgroup>
+
+                            <optgroup label="Slabs Racks">
+                                <option value="SL1-S1">SL-1 - Section 1</option>
+                                <option value="SL1-S2">SL-1 - Section 2</option>
+                                <option value="SL1-S3">SL-1 - Section 3</option>
+
+                                <option value="SL2-S1">SL-2 - Section 1</option>
+                                <option value="SL2-S2">SL-2 - Section 2</option>
+                                <option value="SL2-S3">SL-2 - Section 3</option>
+                            </optgroup>
+
+                            <optgroup label="Special Areas">
+                                <option value="QZ">Quartzite Slabs - Yet to be done</option>
+                                <option value="MB-DISPLAY">Marble Display Slabs</option>
+                                <option value="QZ-DISPLAY">Quartz Display Slabs</option>
+                                <option value="RACK-SOLD-1">Rack Sold - 1</option>
+                                <option value="RACK-SOLD-2">Rack Sold - 2</option>
+                                <option value="POLISH">Polishing Area</option>
+                                <option value="CUT">Cutting Area</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="remFormNotes">Notes (optional)</label>
+                        <input id="remFormNotes" type="text" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="remFormAttachment">Attachments (image or PDF)</label>
+                    <input id="remFormAttachment" type="file" accept="image/*,application/pdf" multiple />
+                    <div class="hint-text">You can select more than one file.</div>
+                </div>
+
+                <button class="btn-primary" type="button" onclick="handleAddRemnantFormSubmit()">
+                    Add to Stock
+                </button>
+            </div>
+
+            <div class="card-title">Stock Material (latest on top)</div>
+            <div id="remnantsError" class="error-text"></div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="filterRemnantMaterial">Filter by Material</label>
+                    <input id="filterRemnantMaterial" type="text" />
+                </div>
+                <div class="field">
+                    <label for="filterRemnantContractor">Filter by Contractor</label>
+                    <input id="filterRemnantContractor" type="text" />
+                </div>
+            </div>
+
+            <div class="location-tabs">
+                <button class="loc-tab active" data-loc="ALL">All</button>
+                <button class="loc-tab" data-loc="RR1">RR1</button>
+                <button class="loc-tab" data-loc="RR2">RR2</button>
+                <button class="loc-tab" data-loc="RR3">RR3</button>
+                <button class="loc-tab" data-loc="RR4">RR4</button>
+                <button class="loc-tab" data-loc="RR5">RR5</button>
+                <button class="loc-tab" data-loc="RR6">RR6</button>
+                <button class="loc-tab" data-loc="SL1">SL-1</button>
+                <button class="loc-tab" data-loc="SL2">SL-2</button>
+                <button class="loc-tab" data-loc="QZ">Quartzite</button>
+                <button class="loc-tab" data-loc="MB-DISPLAY">Marble Display</button>
+                <button class="loc-tab" data-loc="QZ-DISPLAY">Quartz Display</button>
+                <button class="loc-tab" data-loc="RACK-SOLD-1">Rack Sold - 1</button>
+                <button class="loc-tab" data-loc="RACK-SOLD-2">Rack Sold - 2</button>
+                <button class="loc-tab" data-loc="ON-HOLD">On Hold</button>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 60px;">Job ID</th>
+                    <th>Contractor</th>
+                    <th>Customer</th>
+                    <th>Material</th>
+                    <th>Install Date</th>
+                    <th>Location</th>
+                    <th>Remnant / Notes</th>
+                    <th>Attachments</th>
+                    <th style="width: 210px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="remnantsBody">
+                <tr><td colspan="9" class="table-empty">No stock material found</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SOLD MATERIAL -->
+        <div id="soldRemnantsCard" style="display:none;">
+            <div class="card-title">Sold Material</div>
+            <div id="soldRemnantsError" class="error-text"></div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="filterSoldRemnantMaterial">Filter by Material</label>
+                    <input id="filterSoldRemnantMaterial" type="text" />
+                </div>
+                <div class="field">
+                    <label for="filterSoldRemnantContractor">Filter by Contractor</label>
+                    <input id="filterSoldRemnantContractor" type="text" />
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 60px;">Job ID</th>
+                    <th>Contractor</th>
+                    <th>Customer</th>
+                    <th>Material</th>
+                    <th>Install Date</th>
+                    <th>Location</th>
+                    <th>Remnant / Notes</th>
+                    <th style="width: 260px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="soldRemnantsBody">
+                <tr><td colspan="8" class="table-empty">No sold material</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- USED UP HISTORY -->
+        <div id="usedUpCard" style="display:none;">
+            <div class="card-title">Used Up History</div>
+            <div id="usedUpError" class="error-text"></div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 60px;">Job ID</th>
+                    <th>Contractor</th>
+                    <th>Customer</th>
+                    <th>Material</th>
+                    <th>Location</th>
+                    <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody id="usedUpBody">
+                <tr><td colspan="6" class="table-empty">No used up items</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const holdReasonContainer = document.getElementById('holdReasonContainer');
+    const holdReasonInput = document.getElementById('holdReason');
+    const jobFormCard = document.getElementById('jobFormCard');
+
+    let editingJobId = null;
+
+    const contractorInput = document.getElementById('contractor');
+    const customerInput  = document.getElementById('customer');
+    const materialInput  = document.getElementById('material');
+    const stageSelect    = document.getElementById('stage');
+    const installDateInput = document.getElementById('installDate');
+    const notesInput     = document.getElementById('notes');
+    const jobAttachmentInput = document.getElementById('jobAttachment');
+
+    const remnantSizeInput = document.getElementById('remnantSize');
+    const remnantOptionRadios = document.querySelectorAll('input[name="remnantOption"]');
+    const remnantLocationSelect = document.getElementById('remnantLocation');
+
+    const contractorSuggestions = document.getElementById('contractorSuggestions');
+    const materialSuggestions   = document.getElementById('materialSuggestions');
+
+    const newJobError      = document.getElementById('newJobError');
+    const activeJobsError  = document.getElementById('activeJobsError');
+    const completedJobsError = document.getElementById('completedJobsError');
+    const remnantsError    = document.getElementById('remnantsError');
+    const soldRemnantsError = document.getElementById('soldRemnantsError');
+    const newRemnantError  = document.getElementById('newRemnantError');
+    const usedUpError      = document.getElementById('usedUpError');
+
+    const addJobBtn      = document.getElementById('addJobBtn');
+    const cancelEditBtn  = document.getElementById('cancelEditBtn');
+    const deleteJobFormBtn = document.getElementById('deleteJobBtn');
+
+    const currentUserSpan = document.getElementById('currentUser');
+
+    const tabActiveBtn    = document.getElementById('tabActive');
+    const tabCompletedBtn = document.getElementById('tabCompleted');
+    const tabRemnantsBtn  = document.getElementById('tabRemnants');
+    const tabSoldRemnantsBtn = document.getElementById('tabSoldRemnants');
+    const tabUsedUpBtn    = document.getElementById('tabUsedUp');
+
+    const activeCard      = document.getElementById('activeCard');
+    const completedCard   = document.getElementById('completedCard');
+    const remnantsCard    = document.getElementById('remnantsCard');
+    const soldRemnantsCard = document.getElementById('soldRemnantsCard');
+    const usedUpCard      = document.getElementById('usedUpCard');
+
+    const filterContractorInput        = document.getElementById('filterContractor');
+    const filterMaterialInput          = document.getElementById('filterMaterial');
+    const filterContractorCompletedInp = document.getElementById('filterContractorCompleted');
+    const filterMaterialCompletedInp   = document.getElementById('filterMaterialCompleted');
+    const filterRemnantMaterialInput   = document.getElementById('filterRemnantMaterial');
+    const filterRemnantContractorInput = document.getElementById('filterRemnantContractor');
+    const filterSoldRemnantMaterialInput   = document.getElementById('filterSoldRemnantMaterial');
+    const filterSoldRemnantContractorInput = document.getElementById('filterSoldRemnantContractor');
+
+    const locationTabButtons = document.querySelectorAll('.loc-tab');
+    let currentRemnantLocationFilter = 'ALL';
+
+    const remFormContractorInput = document.getElementById('remFormContractor');
+    const remFormCustomerInput   = document.getElementById('remFormCustomer');
+    const remFormMaterialInput   = document.getElementById('remFormMaterial');
+    const remFormSizeInput       = document.getElementById('remFormSize');
+    const remFormLocationSelect  = document.getElementById('remFormLocation');
+    const remFormNotesInput      = document.getElementById('remFormNotes');
+    const remFormAttachmentInput = document.getElementById('remFormAttachment');
+
+    const savedUser = localStorage.getItem('username') || 'Unknown';
+    currentUserSpan.textContent = savedUser;
+
+    const LOCATION_LABELS = {
+        'RR1-S1': 'RR1 - Section 1',
+        'RR1-S2': 'RR1 - Section 2',
+        'RR1-S3': 'RR1 - Section 3',
+        'RR2-S1': 'RR2 - Section 1',
+        'RR2-S2': 'RR2 - Section 2',
+        'RR2-S3': 'RR2 - Section 3',
+        'RR3-S1': 'RR3 - Section 1',
+        'RR3-S2': 'RR3 - Section 2',
+        'RR3-S3': 'RR3 - Section 3',
+        'RR4-S1': 'RR4 - Section 1',
+        'RR4-S2': 'RR4 - Section 2',
+        'RR4-S3': 'RR4 - Section 3',
+        'RR5':    'RR5 (New Remnant Rack)',
+        'RR6':    'RR6 (New Remnant Rack)',
+        'ON-HOLD': 'On Hold (RR5/RR6)',
+        'SL1-S1': 'SL-1 - Section 1',
+        'SL1-S2': 'SL-1 - Section 2',
+        'SL1-S3': 'SL-1 - Section 3',
+        'SL2-S1': 'SL-2 - Section 1',
+        'SL2-S2': 'SL-2 - Section 2',
+        'SL2-S3': 'SL-2 - Section 3',
+        'QZ': 'Quartzite Slabs',
+        'MB-DISPLAY': 'Marble Display Slabs',
+        'QZ-DISPLAY': 'Quartz Display Slabs',
+        'RACK-SOLD-1': 'Rack Sold - 1',
+        'RACK-SOLD-2': 'Rack Sold - 2',
+        'POLISH': 'Polishing Area',
+        'CUT': 'Cutting Area'
+    };
+
+    function getAuthHeaders(json = true) {
+        const headers = {};
+        if (json) headers['Content-Type'] = 'application/json';
+        const authHeader = localStorage.getItem('authHeader');
+        if (authHeader) {
+            headers['Authorization'] = authHeader;
+        }
+        return headers;
+    }
+
+    function getMultipartAuthHeaders() {
+        const headers = {};
+        const authHeader = localStorage.getItem('authHeader');
+        if (authHeader) {
+            headers['Authorization'] = authHeader;
+        }
+        return headers;
+    }
+
+    function formatStage(stage) {
+        switch (stage) {
+            case 'TO_BE_LOCATED': return 'To Be Located';
+            case 'LOCATED':       return 'Located';
+            case 'PROGRAMMED':    return 'Programmed';
+            case 'CUT':           return 'Cut';
+            case 'POLISHED':      return 'Polished';
+            default:              return stage || '';
+        }
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        return dateStr;
+    }
+
+    function getPriorityInfo(dateStr) {
+        if (!dateStr) return { label: '', className: '', rowClass: '' };
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const d = new Date(dateStr);
+        if (isNaN(d)) return { label: '', className: '', rowClass: '' };
+        d.setHours(0,0,0,0);
+
+        const diffDays = Math.round((d - today) / (1000 * 60 * 60 * 24));
+
+        if (diffDays < 0) {
+            return { label: 'Overdue', className: 'priority-overdue', rowClass: 'row-overdue' };
+        } else if (diffDays <= 2) {
+            return { label: 'Urgent', className: 'priority-urgent', rowClass: 'row-urgent' };
+        } else if (diffDays <= 7) {
+            return { label: 'Soon', className: 'priority-soon', rowClass: 'row-soon' };
+        } else {
+            return { label: 'Scheduled', className: 'priority-scheduled', rowClass: 'row-scheduled' };
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('authHeader');
+        localStorage.removeItem('username');
+        window.location.href = '/login.html';
+    }
+
+    async function uploadAttachmentForJobId(jobId, file) {
+        if (!file) return true;
+
+        const allowed = file.type.startsWith('image/') || file.type === 'application/pdf';
+        if (!allowed) {
+            alert('Only image or PDF files are allowed.');
+            return false;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const resp = await fetch(`/api/jobs/${jobId}/upload`, {
+                method: 'POST',
+                headers: getMultipartAuthHeaders(),
+                body: formData
+            });
+
+            if (!resp.ok) {
+                const text = await resp.text();
+                alert('Upload failed: ' + (text || ('HTTP ' + resp.status)));
+                return false;
+            }
+
+            return true;
+        } catch (err) {
+            alert('Upload error: ' + err);
+            return false;
+        }
+    }
+
+    async function uploadMultipleFilesForJobId(jobId, files) {
+        for (const file of files) {
+            const ok = await uploadAttachmentForJobId(jobId, file);
+            if (!ok) return false;
+        }
+        return true;
+    }
+
+    function getJobAttachments(job) {
+        return Array.isArray(job.attachments) ? job.attachments : [];
+    }
+
+    function renderAttachmentCell(job) {
+        const attachments = getJobAttachments(job);
+
+        let html = '<div class="attachment-cell">';
+
+        if (attachments.length === 0) {
+            html += `
+                <input type="file"
+                       accept="image/*,application/pdf"
+                       multiple
+                       onchange="handleAttachmentInputChange(this, ${job.id})">
+            `;
+            html += '</div>';
+            return html;
+        }
+
+        for (const att of attachments) {
+            const fileUrl = `/uploads/${att.storedName}`;
+            const isPdf = (att.contentType || '').toLowerCase() === 'application/pdf' || /\.pdf$/i.test(att.storedName || '');
+
+            html += `<div class="attachment-item">`;
+
+            if (isPdf) {
+                html += `<a class="attachment-link" href="${fileUrl}" target="_blank">View PDF</a>`;
+            } else {
+                html += `<a href="${fileUrl}" target="_blank">
+                            <img src="${fileUrl}" alt="attachment" class="attachment-thumb">
+                         </a>`;
+            }
+
+            html += `<div class="attachment-name">${att.fileName || att.storedName || 'file'}</div>`;
+            html += `
+                <button class="btn-sm btn-outline-danger"
+                        onclick="deleteAttachment(${job.id}, ${att.id})">
+                    Delete
+                </button>
+            `;
+            html += `</div>`;
+        }
+
+        html += `
+            <div class="attachment-actions">
+                <input type="file"
+                       accept="image/*,application/pdf"
+                       multiple
+                       onchange="handleAttachmentInputChange(this, ${job.id})">
+            </div>
+        `;
+
+        html += '</div>';
+        return html;
+    }
+
+    async function handleAttachmentInputChange(input, jobId) {
+        const files = Array.from(input.files || []);
+        if (!files.length) return;
+
+        const ok = await uploadMultipleFilesForJobId(jobId, files);
+        input.value = '';
+        if (ok) {
+            await loadAll();
+        }
+    }
+
+    async function deleteAttachment(jobId, attachmentId) {
+        if (!confirm('Delete this attachment?')) return;
+
+        try {
+            const resp = await fetch(`/api/jobs/${jobId}/upload/${attachmentId}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(false)
+            });
+
+            if (!resp.ok) {
+                const text = await resp.text();
+                alert('Delete attachment failed: ' + (text || ('HTTP ' + resp.status)));
+                return;
+            }
+
+            await loadAll();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    function stripRemnantInfo(notes) {
+        if (!notes) return '';
+        return notes
+            .replace(/\s*\|\s*Remnant:.*$/i, '')
+            .replace(/\s*\|\s*Location:\s*[A-Z0-9\-]+/i, '')
+            .replace(/\s*\|\s*No remnants were left\.?/i, '')
+            .replace(/No remnants were left\.?/i, '')
+            .trim();
+    }
+
+    function hasRemnantInfo(notes) {
+        if (!notes) return false;
+        return /Remnant:/i.test(notes) || /No remnants were left/i.test(notes);
+    }
+
+    function hasTagInfo(notes) {
+        if (!notes) return false;
+        return /\bTag:\s*[^|]+/i.test(notes);
+    }
+
+    function extractTagText(notes){
+        if(!notes) return '';
+        const m = notes.match(/\bTag:\s*([^|]+)/i);
+        return m ? m[1].trim() : '';
+    }
+
+    function hasUsedUp(notes){
+        return /\bUSED_UP\b/i.test(notes || '');
+    }
+
+    function setUsedUpInNotes(notes){
+        let base = (notes || '').trim();
+        base = base.replace(/\s*\|\s*USED_UP:\s*[^|]+/ig, '').replace(/USED_UP:\s*[^|]+/ig, '').trim();
+        base = base.replace(/\s*\|\s*\|\s*/g, ' | ').replace(/\|\s*$/,'').trim();
+        const today = new Date().toISOString().slice(0,10);
+        return base ? `${base} | USED_UP: ${today}` : `USED_UP: ${today}`;
+    }
+
+    function extractLocationCode(notes) {
+        if (!notes) return null;
+        const m = notes.match(/Location:\s*([A-Z0-9\-]+)/i);
+        return m ? m[1].toUpperCase() : null;
+    }
+
+    function getLocationLabel(code) {
+        if (!code) return '';
+        return LOCATION_LABELS[code] || code;
+    }
+
+    function setLocationInNotes(notes, newCode){
+        let s = (notes || '').trim();
+
+        s = s.replace(/\s*\|\s*Location:\s*[A-Z0-9\-]+/ig, '');
+        s = s.replace(/Location:\s*[A-Z0-9\-]+/ig, '');
+        s = s.replace(/\s*\|\s*\|\s*/g, ' | ').replace(/\|\s*$/,'').trim();
+
+        if(/\bTag:\s*[^|]+/i.test(s)){
+            s = s.replace(/\s*\|\s*Tag:\s*/i, ` | Location: ${newCode} | Tag: `);
+            return s.trim();
+        }
+
+        if(/\bUSED_UP:\s*[^|]+/i.test(s)){
+            s = s.replace(/\s*\|\s*USED_UP:\s*/i, ` | Location: ${newCode} | USED_UP: `);
+            return s.trim();
+        }
+
+        return s ? `${s} | Location: ${newCode}` : `Location: ${newCode}`;
+    }
+
+    async function updateRemnantLocation(job){
+        const current = extractLocationCode(job.notes || '');
+        const msg =
+            'New location code (examples: RR1-S1, RR5, SL1-S2, QZ, MB-DISPLAY, QZ-DISPLAY, ON-HOLD, RACK-SOLD-1, RACK-SOLD-2)\n' +
+            'Current: ' + (current || '(none)');
+        const input = window.prompt(msg, current || '');
+        if(input === null) return;
+
+        const newCode = input.trim().toUpperCase();
+        if(!newCode){
+            alert('Location cannot be empty.');
+            return;
+        }
+
+        if(!LOCATION_LABELS[newCode]){
+            const ok = confirm(`"${newCode}" is not in your location list. Save anyway?`);
+            if(!ok) return;
+        }
+
+        const body = {
+            contractor: job.contractor,
+            customer: job.customer,
+            material: job.material,
+            stage: job.stage,
+            installDate: job.installDate || null,
+            notes: setLocationInNotes(job.notes || '', newCode)
+        };
+
+        try{
+            const resp = await fetch(`/api/jobs/${job.id}`, {
+                method:'PUT',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify(body)
+            });
+            if(!resp.ok){
+                const t = await resp.text();
+                alert('Error updating location: HTTP ' + resp.status + ' - ' + t);
+                return;
+            }
+            await loadRemnants();
+            await loadSoldRemnants();
+            await loadUsedUpHistory();
+        }catch(err){
+            alert('Network error: ' + err);
+        }
+    }
+
+    function isRecentRemnant(job) {
+        if (!job || !job.installDate) return false;
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const d = new Date(job.installDate);
+        if (isNaN(d)) return false;
+        d.setHours(0,0,0,0);
+        const diffDays = Math.round((today - d) / (1000 * 60 * 60 * 24));
+        return diffDays >= 0 && diffDays <= 5;
+    }
+
+    function isJobOnHold(job) {
+        return /\bON HOLD\b/i.test(job.notes || '');
+    }
+
+    function stripOnHoldText(notes) {
+        if (!notes) return '';
+        return notes
+            .replace(/\s*\|\s*ON HOLD\b[^|]*/i, '')
+            .replace(/\bON HOLD\b[^|]*/i, '')
+            .trim();
+    }
+
+    function getOnHoldReason(notes) {
+        if (!notes) return '';
+        const m = notes.match(/ON HOLD\s*:?\s*([^|]+)/i);
+        return m ? m[1].trim() : '';
+    }
+
+    async function toggleOnHold(job) {
+        const currentlyOnHold = isJobOnHold(job);
+        let baseNotes = stripOnHoldText(job.notes || '');
+        let finalNotes = baseNotes;
+
+        if (!currentlyOnHold) {
+            const reason = window.prompt('Reason for ON HOLD? (optional)');
+            if (reason && reason.trim()) {
+                finalNotes = baseNotes
+                    ? `${baseNotes} | ON HOLD: ${reason.trim()}`
+                    : `ON HOLD: ${reason.trim()}`;
+            } else {
+                finalNotes = baseNotes ? `${baseNotes} | ON HOLD` : 'ON HOLD';
+            }
+        } else {
+            finalNotes = baseNotes;
+        }
+
+        const body = {
+            contractor: job.contractor,
+            customer: job.customer,
+            material: job.material,
+            stage: job.stage,
+            installDate: job.installDate || null,
+            notes: finalNotes
+        };
+
+        try {
+            const resp = await fetch(`/api/jobs/${job.id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify(body)
+            });
+            if (!resp.ok) {
+                alert('Error updating ON HOLD: HTTP ' + resp.status);
+                return;
+            }
+            await loadAll();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    async function tagRemnantAsSold(job) {
+        if (!hasRemnantInfo(job.notes)) {
+            alert('This item has no remnant info.');
+            return;
+        }
+
+        let baseNotes = job.notes || '';
+
+        const tagInfo = window.prompt('Tag this material to which job / customer?');
+        if (tagInfo === null) return;
+        const trimmed = tagInfo.trim();
+        if (!trimmed) return;
+
+        baseNotes = baseNotes
+            .replace(/\s*\|\s*Tag:\s*[^|]+/i, '')
+            .replace(/Tag:\s*[^|]+/i, '');
+
+        baseNotes += (baseNotes ? ' | ' : '') + 'Tag: ' + trimmed;
+
+        const body = {
+            contractor: job.contractor,
+            customer: job.customer,
+            material: job.material,
+            stage: job.stage,
+            installDate: job.installDate || null,
+            notes: baseNotes
+        };
+
+        try {
+            const resp = await fetch(`/api/jobs/${job.id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify(body)
+            });
+            if (!resp.ok) {
+                const text = await resp.text();
+                alert('Error tagging material: HTTP ' + resp.status + ' - ' + text);
+                return;
+            }
+            await loadRemnants();
+            await loadSoldRemnants();
+            await loadUsedUpHistory();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    async function releaseRemnantTag(job) {
+        let baseNotes = job.notes || '';
+
+        baseNotes = baseNotes
+            .replace(/\s*\|\s*Tag:\s*[^|]+/i, '')
+            .replace(/Tag:\s*[^|]+/i, '')
+            .trim();
+
+        const body = {
+            contractor: job.contractor,
+            customer: job.customer,
+            material: job.material,
+            stage: job.stage,
+            installDate: job.installDate || null,
+            notes: baseNotes
+        };
+
+        try {
+            const resp = await fetch(`/api/jobs/${job.id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify(body)
+            });
+            if (!resp.ok) {
+                const text = await resp.text();
+                alert('Error releasing tag: HTTP ' + resp.status + ' - ' + text);
+                return;
+            }
+            await loadRemnants();
+            await loadSoldRemnants();
+            await loadUsedUpHistory();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    async function markRemnantUsedUp(job){
+        const ok = confirm('Mark this sold material as USED UP (fabricated/installed, no longer available)?');
+        if(!ok) return;
+
+        const body = {
+            contractor: job.contractor,
+            customer: job.customer,
+            material: job.material,
+            stage: job.stage,
+            installDate: job.installDate || null,
+            notes: setUsedUpInNotes(job.notes || '')
+        };
+
+        try{
+            const resp = await fetch(`/api/jobs/${job.id}`, {
+                method:'PUT',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify(body)
+            });
+            if(!resp.ok){
+                const t = await resp.text();
+                alert('Error marking USED_UP: HTTP ' + resp.status + ' - ' + t);
+                return;
+            }
+            await loadSoldRemnants();
+            await loadUsedUpHistory();
+        }catch(err){
+            alert('Network error: ' + err);
+        }
+    }
+
+    function isNewJob(job) {
+        const now = new Date();
+        let ref = null;
+
+        if (job && job.createdAt) {
+            ref = new Date(job.createdAt);
+        } else if (job && job.updatedAt) {
+            ref = new Date(job.updatedAt);
+        }
+
+        if (!ref || isNaN(ref)) return false;
+
+        const diffHours = (now - ref) / (1000 * 60 * 60);
+        return diffHours <= 24;
+    }
+
+    function renderNotes(notes, withNew, isNew) {
+        if (!notes) {
+            return withNew && isNew ? '<span class="new-pill">New!</span>' : '';
+        }
+
+        const regex = /(.*?)(\s*\|\s*(Remnant:.*|No remnants were left\.?.*))/i;
+        const match = notes.match(regex);
+
+        let html = '';
+        if (!match) {
+            html = notes;
+        } else {
+            const base = match[1].trim();
+            const remnantPart = match[3].trim();
+
+            if (base) {
+                html += base + ' ';
+            }
+
+            const isNone = /No remnants were left/i.test(remnantPart);
+            const cls = isNone ? 'remnant-note-none' : 'remnant-note-left';
+            html += `<span class="${cls}">${remnantPart}</span>`;
+        }
+
+        if (withNew && isNew) {
+            html += ' <span class="new-pill">New!</span>';
+        }
+
+        return html;
+    }
+
+    function renderNotesWithTag(notes){
+        if(!notes) return '';
+        const tag = extractTagText(notes);
+
+        let base = notes;
+        base = base
+            .replace(/\s*\|\s*Tag:\s*[^|]+/i, '')
+            .replace(/Tag:\s*[^|]+/i, '')
+            .trim();
+
+        let html = renderNotes(base, false, false);
+        if(tag){
+            html += ` <span class="tag-blue">Tag: ${tag}</span>`;
+        }
+        return html;
+    }
+
+    function setupAutocomplete(inputEl, suggestionsEl, endpoint) {
+        let timer = null;
+
+        inputEl.addEventListener('input', () => {
+            const value = inputEl.value.trim();
+            clearTimeout(timer);
+
+            if (value.length < 2) {
+                suggestionsEl.innerHTML = '';
+                suggestionsEl.style.display = 'none';
+                return;
+            }
+
+            timer = setTimeout(async () => {
+                try {
+                    const resp = await fetch(endpoint + '?q=' + encodeURIComponent(value), {
+                        headers: getAuthHeaders(false)
+                    });
+                    if (!resp.ok) {
+                        suggestionsEl.innerHTML = '';
+                        suggestionsEl.style.display = 'none';
+                        return;
+                    }
+                    const list = await resp.json();
+                    if (!list || list.length === 0) {
+                        suggestionsEl.innerHTML = '';
+                        suggestionsEl.style.display = 'none';
+                        return;
+                    }
+
+                    suggestionsEl.innerHTML = '';
+                    list.slice(0, 8).forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.textContent = item;
+                        div.onclick = () => {
+                            inputEl.value = item;
+                            suggestionsEl.innerHTML = '';
+                            suggestionsEl.style.display = 'none';
+                            inputEl.focus();
+                        };
+                        suggestionsEl.appendChild(div);
+                    });
+                    suggestionsEl.style.display = 'block';
+                } catch (e) {
+                    console.error(e);
+                    suggestionsEl.innerHTML = '';
+                    suggestionsEl.style.display = 'none';
+                }
+            }, 200);
+        });
+
+        document.addEventListener('click', (evt) => {
+            if (!suggestionsEl.contains(evt.target) && evt.target !== inputEl) {
+                suggestionsEl.innerHTML = '';
+                suggestionsEl.style.display = 'none';
+            }
+        });
+    }
+
+    function applyFiltersToJobs(jobs, contractorFilterValue, materialFilterValue) {
+        const fc = contractorFilterValue.trim().toLowerCase();
+        const fm = materialFilterValue.trim().toLowerCase();
+
+        return jobs.filter(job => {
+            const contractor = (job.contractor || '').toLowerCase();
+            const material   = (job.material || '').toLowerCase();
+
+            const matchContractor = !fc || contractor.includes(fc);
+            const matchMaterial   = !fm || material.includes(fm);
+
+            return matchContractor && matchMaterial;
+        });
+    }
+
+    filterContractorInput.addEventListener('input', () => loadActive());
+    filterMaterialInput.addEventListener('input', () => loadActive());
+    filterContractorCompletedInp.addEventListener('input', () => loadCompleted());
+    filterMaterialCompletedInp.addEventListener('input', () => loadCompleted());
+    filterRemnantMaterialInput.addEventListener('input', () => loadRemnants());
+    filterRemnantContractorInput.addEventListener('input', () => loadRemnants());
+    filterSoldRemnantMaterialInput.addEventListener('input', () => loadSoldRemnants());
+    filterSoldRemnantContractorInput.addEventListener('input', () => loadSoldRemnants());
+
+    locationTabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentRemnantLocationFilter = btn.dataset.loc;
+            locationTabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadRemnants();
+        });
+    });
+
+    function showTab(which) {
+        activeCard.style.display = 'none';
+        completedCard.style.display = 'none';
+        remnantsCard.style.display = 'none';
+        soldRemnantsCard.style.display = 'none';
+        usedUpCard.style.display = 'none';
+
+        tabActiveBtn.classList.remove('active');
+        tabCompletedBtn.classList.remove('active');
+        tabRemnantsBtn.classList.remove('active');
+        tabSoldRemnantsBtn.classList.remove('active');
+        tabUsedUpBtn.classList.remove('active');
+
+        if (which === 'active') {
+            jobFormCard.style.display = 'block';
+            activeCard.style.display = 'block';
+            tabActiveBtn.classList.add('active');
+        } else if (which === 'completed') {
+            jobFormCard.style.display = 'block';
+            completedCard.style.display = 'block';
+            tabCompletedBtn.classList.add('active');
+        } else if (which === 'remnants') {
+            jobFormCard.style.display = 'none';
+            remnantsCard.style.display = 'block';
+            tabRemnantsBtn.classList.add('active');
+            loadRemnants();
+        } else if (which === 'sold') {
+            jobFormCard.style.display = 'none';
+            soldRemnantsCard.style.display = 'block';
+            tabSoldRemnantsBtn.classList.add('active');
+            loadSoldRemnants();
+        } else if (which === 'usedup') {
+            jobFormCard.style.display = 'none';
+            usedUpCard.style.display = 'block';
+            tabUsedUpBtn.classList.add('active');
+            loadUsedUpHistory();
+        }
+    }
+
+    function resetForm() {
+        contractorInput.value = '';
+        customerInput.value   = '';
+        materialInput.value   = '';
+        stageSelect.value     = 'TO_BE_LOCATED';
+        installDateInput.value = '';
+        notesInput.value      = '';
+        remnantSizeInput.value = '';
+        remnantOptionRadios.forEach(r => r.checked = (r.value === 'unknown'));
+        remnantLocationSelect.value = '';
+        if (jobAttachmentInput) jobAttachmentInput.value = '';
+
+        editingJobId = null;
+        newJobError.textContent = '';
+        addJobBtn.textContent = 'Add Job';
+        addJobBtn.classList.remove('editing');
+        cancelEditBtn.style.display = 'none';
+        if (deleteJobFormBtn) deleteJobFormBtn.style.display = 'none';
+
+        holdReasonContainer.style.display = 'none';
+        holdReasonInput.value = '';
+    }
+
+    function fillFormFromJob(job) {
+        contractorInput.value   = job.contractor || '';
+        customerInput.value     = job.customer || '';
+        materialInput.value     = job.material || '';
+        stageSelect.value       = job.stage || 'TO_BE_LOCATED';
+        installDateInput.value  = job.installDate || '';
+
+        notesInput.value = stripRemnantInfo(stripOnHoldText(job.notes || ''));
+
+        remnantSizeInput.value = '';
+        remnantOptionRadios.forEach(r => r.checked = (r.value === 'unknown'));
+        remnantLocationSelect.value = '';
+        if (jobAttachmentInput) jobAttachmentInput.value = '';
+
+        if (isJobOnHold(job)) {
+            holdReasonContainer.style.display = 'block';
+            holdReasonInput.value = getOnHoldReason(job.notes || '');
+        } else {
+            holdReasonContainer.style.display = 'none';
+            holdReasonInput.value = '';
+        }
+    }
+
+    function startEditJob(job) {
+        editingJobId = job.id;
+        fillFormFromJob(job);
+
+        addJobBtn.textContent = 'Save Changes';
+        addJobBtn.classList.add('editing');
+        cancelEditBtn.style.display = 'inline-block';
+
+        const username = savedUser || '';
+        const seller = (job.seller || '').toLowerCase();
+        const userLower = username.toLowerCase();
+        const isAdmin = userLower === 'admin';
+        const isOwner = seller && seller === userLower;
+
+        if (deleteJobFormBtn) {
+            deleteJobFormBtn.style.display = (isAdmin || isOwner) ? 'inline-block' : 'none';
+        }
+
+        jobFormCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        contractorInput.focus();
+    }
+
+    function cancelEdit() {
+        resetForm();
+    }
+
+    async function deleteCurrentJob() {
+        if (!editingJobId) return;
+        await deleteJob(editingJobId);
+        resetForm();
+    }
+
+    async function handleNewJobSubmit() {
+        newJobError.textContent = '';
+
+        const contractor  = contractorInput.value.trim();
+        const customer    = customerInput.value.trim();
+        const material    = materialInput.value.trim();
+        const stage       = stageSelect.value;
+        const installDate = installDateInput.value;
+        let notesRaw      = notesInput.value.trim();
+        const selectedAttachments = Array.from(jobAttachmentInput ? jobAttachmentInput.files : []);
+
+        if (!contractor || !customer || !material) {
+            newJobError.textContent = 'Contractor, Customer and Material are required.';
+            return;
+        }
+
+        const locationCode = remnantLocationSelect.value;
+
+        notesRaw = stripOnHoldText(stripRemnantInfo(notesRaw));
+
+        let chosenOption = 'unknown';
+        remnantOptionRadios.forEach(r => {
+            if (r.checked) chosenOption = r.value;
+        });
+
+        let remnantText = '';
+        const remSize = remnantSizeInput.value.trim();
+
+        if (chosenOption === 'left' && remSize) {
+            remnantText = `Remnant: ${remSize} left`;
+            if (locationCode) {
+                remnantText += ` | Location: ${locationCode}`;
+            }
+        } else if (chosenOption === 'none') {
+            remnantText = 'No remnants were left.';
+        }
+
+        let finalNotes = notesRaw;
+        if (remnantText) {
+            finalNotes = finalNotes ? (finalNotes + ' | ' + remnantText) : remnantText;
+        }
+
+        if (holdReasonContainer.style.display === 'block') {
+            const reason = holdReasonInput.value.trim();
+            if (reason) {
+                finalNotes = finalNotes
+                    ? `${finalNotes} | ON HOLD: ${reason}`
+                    : `ON HOLD: ${reason}`;
+            } else {
+                finalNotes = finalNotes
+                    ? `${finalNotes} | ON HOLD`
+                    : 'ON HOLD';
+            }
+        }
+
+        const body = {
+            contractor,
+            customer,
+            material,
+            stage,
+            installDate: installDate || null,
+            notes: finalNotes
+        };
+
+        const currentUsername = localStorage.getItem('username') || '';
+        if (editingJobId === null && currentUsername) {
+            body.seller = currentUsername;
+        }
+
+        try {
+            let resp;
+            let savedJob = null;
+
+            if (editingJobId === null) {
+                resp = await fetch('/api/jobs', {
+                    method: 'POST',
+                    headers: getAuthHeaders(true),
+                    body: JSON.stringify(body)
+                });
+            } else {
+                resp = await fetch(`/api/jobs/${editingJobId}`, {
+                    method: 'PUT',
+                    headers: getAuthHeaders(true),
+                    body: JSON.stringify(body)
+                });
+            }
+
+            if (!resp.ok) {
+                const text = await resp.text();
+                newJobError.textContent = 'Error saving job: HTTP ' + resp.status + ' - ' + text;
+                return;
+            }
+
+            savedJob = await resp.json();
+
+            if (selectedAttachments.length && savedJob && savedJob.id) {
+                const okUpload = await uploadMultipleFilesForJobId(savedJob.id, selectedAttachments);
+                if (!okUpload) {
+                    newJobError.textContent = 'Job saved, but one or more attachments failed.';
+                    await loadAll();
+                    return;
+                }
+            }
+
+            resetForm();
+            await loadAll();
+        } catch (err) {
+            newJobError.textContent = 'Network error: ' + err;
+        }
+    }
+
+    async function handleAddRemnantFormSubmit() {
+        newRemnantError.textContent = '';
+
+        let contractor = remFormContractorInput.value.trim();
+        const customer = remFormCustomerInput.value.trim();
+        const material = remFormMaterialInput.value.trim();
+        const size     = remFormSizeInput.value.trim();
+        const locCode  = remFormLocationSelect.value;
+        let extraNotes = remFormNotesInput.value.trim();
+        const selectedAttachments = Array.from(remFormAttachmentInput ? remFormAttachmentInput.files : []);
+
+        if (!material || !size || !locCode) {
+            newRemnantError.textContent = 'Material, size and location are required.';
+            return;
+        }
+
+        if (!contractor) {
+            contractor = 'REMNANT STOCK';
+        }
+
+        let notes = extraNotes ? (extraNotes + ' | ') : '';
+        notes += `Remnant: ${size} left | Location: ${locCode}`;
+
+        const body = {
+            contractor,
+            customer: customer || '',
+            material,
+            stage: 'POLISHED',
+            installDate: null,
+            notes
+        };
+
+        try {
+            const resp = await fetch('/api/jobs', {
+                method: 'POST',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify(body)
+            });
+            if (!resp.ok) {
+                const text = await resp.text();
+                newRemnantError.textContent = 'Error creating stock item: HTTP ' + resp.status + ' - ' + text;
+                return;
+            }
+
+            let created = null;
+            try { created = await resp.json(); } catch (e) { created = null; }
+
+            if (selectedAttachments.length && created && created.id) {
+                const okUpload = await uploadMultipleFilesForJobId(created.id, selectedAttachments);
+                if (!okUpload) {
+                    newRemnantError.textContent = 'Stock item created, but one or more attachments failed.';
+                }
+            }
+
+            if (created && created.id) {
+                try {
+                    await fetch(`/api/jobs/${created.id}/done`, {
+                        method: 'PUT',
+                        headers: getAuthHeaders(false)
+                    });
+                } catch (e) {}
+            }
+
+            remFormMaterialInput.value  = '';
+            remFormSizeInput.value      = '';
+            remFormLocationSelect.value = '';
+            remFormNotesInput.value     = '';
+            if (remFormAttachmentInput) remFormAttachmentInput.value = '';
+
+            await loadRemnants();
+            await loadSoldRemnants();
+            await loadUsedUpHistory();
+            await loadActive();
+            await loadCompleted();
+        } catch (err) {
+            newRemnantError.textContent = 'Network error: ' + err;
+        }
+    }
+
+    async function loadActive() {
+        activeJobsError.textContent = '';
+        const tbody = document.getElementById('activeJobsBody');
+        tbody.innerHTML = '<tr><td colspan="10" class="table-empty">Loading...</td></tr>';
+
+        try {
+            const resp = await fetch('/api/jobs/active', { headers: getAuthHeaders(false) });
+
+            if (!resp.ok) {
+                const text = await resp.text();
+                activeJobsError.textContent = `Error loading active jobs: HTTP ${resp.status} - ${text}`;
+                tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs</td></tr>';
+                return;
+            }
+
+            let jobs = await resp.json();
+
+            if (!jobs || jobs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs</td></tr>';
+                return;
+            }
+
+            jobs = applyFiltersToJobs(jobs, filterContractorInput.value, filterMaterialInput.value);
+
+            if (!jobs || jobs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs match filters</td></tr>';
+                return;
+            }
+
+            jobs.sort((a, b) => {
+                const ah = isJobOnHold(a);
+                const bh = isJobOnHold(b);
+                if (ah && !bh) return -1;
+                if (!ah && bh) return 1;
+
+                const da = a.installDate || '';
+                const db = b.installDate || '';
+                return da.localeCompare(db);
+            });
+
+            tbody.innerHTML = '';
+            for (const job of jobs) {
+                const tr = document.createElement('tr');
+                const priority = getPriorityInfo(job.installDate);
+                const onHold = isJobOnHold(job);
+                const holdReason = onHold ? getOnHoldReason(job.notes || '') : '';
+                const newFlag = isNewJob(job);
+
+                tr.innerHTML = `
+                    <td>${job.id}</td>
+                    <td>${job.contractor || ''}</td>
+                    <td>${job.customer || ''}</td>
+                    <td>${job.material || ''}</td>
+                    <td>${job.seller || ''}</td>
+                    <td>
+                        ${formatStage(job.stage)}
+                        ${onHold ? `<div class="tag-onhold">ON HOLD${holdReason ? ' – ' + holdReason : ''}</div>` : ''}
+                    </td>
+                    <td>
+                        ${formatDate(job.installDate)}
+                        ${priority.label ? `<div class="priority-pill ${priority.className}">${priority.label}</div>` : ''}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                `;
+
+                if (priority.rowClass) tr.classList.add(priority.rowClass);
+
+                const notesTd = tr.children[7];
+                if (notesTd) notesTd.innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
+
+                const attachmentTd = tr.children[8];
+                if (attachmentTd) attachmentTd.innerHTML = renderAttachmentCell(job);
+
+                const actionsTd = tr.children[9];
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'btn-sm btn-outline-warning';
+                editBtn.textContent = 'Edit';
+                editBtn.onclick = () => startEditJob(job);
+                actionsTd.appendChild(editBtn);
+
+                const holdBtn = document.createElement('button');
+                holdBtn.className = 'btn-sm btn-outline-hold';
+                holdBtn.textContent = onHold ? 'Clear Hold' : 'On Hold';
+                holdBtn.onclick = () => toggleOnHold(job);
+                actionsTd.appendChild(holdBtn);
+
+                const doneBtn = document.createElement('button');
+                doneBtn.className = 'btn-sm btn-outline-success';
+                doneBtn.textContent = 'Done';
+                doneBtn.onclick = () => markDone(job.id);
+                actionsTd.appendChild(doneBtn);
+
+                const username = savedUser || '';
+                const seller = (job.seller || '').toLowerCase();
+                const userLower = username.toLowerCase();
+                const isAdmin = userLower === 'admin';
+                const isOwner = seller && seller === userLower;
+
+                if (isAdmin || isOwner) {
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'btn-sm btn-outline-danger';
+                    delBtn.textContent = 'Delete';
+                    delBtn.onclick = () => deleteJob(job.id);
+                    actionsTd.appendChild(delBtn);
+                }
+
+                tbody.appendChild(tr);
+            }
+        } catch (err) {
+            activeJobsError.textContent = 'Network error: ' + err;
+            tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs</td></tr>';
+        }
+    }
+
+    async function loadCompleted() {
+        completedJobsError.textContent = '';
+        const tbody = document.getElementById('completedJobsBody');
+        tbody.innerHTML = '<tr><td colspan="10" class="table-empty">Loading...</td></tr>';
+
+        try {
+            const resp = await fetch('/api/jobs/completed', { headers: getAuthHeaders(false) });
+
+            if (!resp.ok) {
+                const text = await resp.text();
+                completedJobsError.textContent = `Error loading completed jobs: HTTP ${resp.status} - ${text}`;
+                tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs yet</td></tr>';
+                return;
+            }
+
+            let jobs = await resp.json();
+
+            if (!jobs || jobs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs yet</td></tr>';
+                return;
+            }
+
+            jobs = applyFiltersToJobs(jobs, filterContractorCompletedInp.value, filterMaterialCompletedInp.value);
+
+            if (!jobs || jobs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs match filters</td></tr>';
+                return;
+            }
+
+            jobs.sort((a, b) => {
+                const da = a.installDate || '';
+                const db = b.installDate || '';
+                return db.localeCompare(da);
+            });
+
+            tbody.innerHTML = '';
+            for (const job of jobs) {
+                const onHold = isJobOnHold(job);
+                const holdReason = onHold ? getOnHoldReason(job.notes || '') : '';
+                const newFlag = isNewJob(job);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${job.id}</td>
+                    <td>${job.contractor || ''}</td>
+                    <td>${job.customer || ''}</td>
+                    <td>${job.material || ''}</td>
+                    <td>${job.seller || ''}</td>
+                    <td>
+                        ${formatStage(job.stage)}
+                        ${onHold ? `<div class="tag-onhold">ON HOLD${holdReason ? ' – ' + holdReason : ''}</div>` : ''}
+                    </td>
+                    <td>${formatDate(job.installDate)}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                `;
+
+                const notesTd = tr.children[7];
+                if (notesTd) notesTd.innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
+
+                const attachmentTd = tr.children[8];
+                if (attachmentTd) attachmentTd.innerHTML = renderAttachmentCell(job);
+
+                const actionsTd = tr.children[9];
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'btn-sm btn-outline-warning';
+                editBtn.textContent = 'Edit';
+                editBtn.onclick = () => startEditJob(job);
+                actionsTd.appendChild(editBtn);
+
+                const undoBtn = document.createElement('button');
+                undoBtn.className = 'btn-sm btn-outline-success';
+                undoBtn.textContent = 'Undo';
+                undoBtn.onclick = () => undoDone(job.id);
+                actionsTd.appendChild(undoBtn);
+
+                const username = savedUser || '';
+                const seller = (job.seller || '').toLowerCase();
+                const userLower = username.toLowerCase();
+                const isAdmin = userLower === 'admin';
+                const isOwner = seller && seller === userLower;
+
+                if (isAdmin || isOwner) {
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'btn-sm btn-outline-danger';
+                    delBtn.textContent = 'Delete';
+                    delBtn.onclick = () => deleteJob(job.id);
+                    actionsTd.appendChild(delBtn);
+                }
+
+                tbody.appendChild(tr);
+            }
+        } catch (err) {
+            completedJobsError.textContent = 'Network error: ' + err;
+            tbody.innerHTML = '<tr><td colspan="10" class="table-empty">No jobs yet</td></tr>';
+        }
+    }
+
+    async function loadRemnants() {
+        remnantsError.textContent = '';
+        const tbody = document.getElementById('remnantsBody');
+        tbody.innerHTML = '<tr><td colspan="9" class="table-empty">Loading...</td></tr>';
+
+        try {
+            const [respActive, respCompleted] = await Promise.all([
+                fetch('/api/jobs/active', { headers: getAuthHeaders(false) }),
+                fetch('/api/jobs/completed', { headers: getAuthHeaders(false) })
+            ]);
+
+            if (!respActive.ok || !respCompleted.ok) {
+                remnantsError.textContent = `Error loading stock material.`;
+                tbody.innerHTML = '<tr><td colspan="9" class="table-empty">No stock material found</td></tr>';
+                return;
+            }
+
+            const activeJobs = await respActive.json() || [];
+            const completedJobs = await respCompleted.json() || [];
+            let all = activeJobs.concat(completedJobs);
+
+            all = all.filter(job => hasRemnantInfo(job.notes));
+            all = all.filter(job => !hasTagInfo(job.notes));
+            all = all.filter(job => !hasUsedUp(job.notes));
+
+            const fm = filterRemnantMaterialInput.value.trim().toLowerCase();
+            const fc = filterRemnantContractorInput.value.trim().toLowerCase();
+
+            if (fm || fc) {
+                all = all.filter(job => {
+                    const material = (job.material || '').toLowerCase();
+                    const contractor = (job.contractor || '').toLowerCase();
+                    const matchMat = !fm || material.includes(fm);
+                    const matchCont = !fc || contractor.includes(fc);
+                    return matchMat && matchCont;
+                });
+            }
+
+            if (currentRemnantLocationFilter !== 'ALL') {
+                all = all.filter(job => {
+                    const code = extractLocationCode(job.notes || '');
+                    if (!code) return false;
+
+                    const loc = currentRemnantLocationFilter;
+
+                    if (loc === 'RR1' || loc === 'RR2' || loc === 'RR3' || loc === 'RR4') return code.startsWith(loc + '-');
+                    if (loc === 'RR5' || loc === 'RR6') return code === loc;
+                    if (loc === 'SL1' || loc === 'SL2') return code.startsWith(loc + '-');
+
+                    return code === loc;
+                });
+            }
+
+            if (!all || all.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="table-empty">No stock material found</td></tr>';
+                return;
+            }
+
+            all.sort((a, b) => {
+                const da = a.installDate || '';
+                const db = b.installDate || '';
+                return db.localeCompare(da);
+            });
+
+            tbody.innerHTML = '';
+            for (const job of all) {
+                const locCode = extractLocationCode(job.notes || '');
+                const locLabel = getLocationLabel(locCode);
+                const isNew = isRecentRemnant(job);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${job.id}</td>
+                    <td>${job.contractor || ''}</td>
+                    <td>${job.customer || ''}</td>
+                    <td>${job.material || ''}</td>
+                    <td>${formatDate(job.installDate)}</td>
+                    <td>${locLabel || ''}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                `;
+
+                const notesTd = tr.children[6];
+                if (notesTd) notesTd.innerHTML = renderNotes(job.notes || '', true, isNew);
+
+                const attachmentTd = tr.children[7];
+                if (attachmentTd) attachmentTd.innerHTML = renderAttachmentCell(job);
+
+                const actionsTd = tr.children[8];
+
+                const tagBtn = document.createElement('button');
+                tagBtn.className = 'btn-sm btn-outline-success';
+                tagBtn.textContent = 'Tag Material';
+                tagBtn.onclick = () => tagRemnantAsSold(job);
+                actionsTd.appendChild(tagBtn);
+
+                const editLocBtn = document.createElement('button');
+                editLocBtn.className = 'btn-sm btn-outline-warning';
+                editLocBtn.textContent = 'Edit Location';
+                editLocBtn.onclick = () => updateRemnantLocation(job);
+                actionsTd.appendChild(editLocBtn);
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn-sm btn-outline-danger';
+                delBtn.textContent = 'Delete';
+                delBtn.onclick = () => deleteJob(job.id);
+                actionsTd.appendChild(delBtn);
+
+                tbody.appendChild(tr);
+            }
+        } catch (err) {
+            remnantsError.textContent = 'Network error: ' + err;
+            tbody.innerHTML = '<tr><td colspan="9" class="table-empty">No stock material found</td></tr>';
+        }
+    }
+
+    async function loadSoldRemnants() {
+        soldRemnantsError.textContent = '';
+        const tbody = document.getElementById('soldRemnantsBody');
+        tbody.innerHTML = '<tr><td colspan="8" class="table-empty">Loading...</td></tr>';
+
+        try {
+            const [respActive, respCompleted] = await Promise.all([
+                fetch('/api/jobs/active', { headers: getAuthHeaders(false) }),
+                fetch('/api/jobs/completed', { headers: getAuthHeaders(false) })
+            ]);
+
+            if (!respActive.ok || !respCompleted.ok) {
+                soldRemnantsError.textContent = `Error loading sold material.`;
+                tbody.innerHTML = '<tr><td colspan="8" class="table-empty">No sold material</td></tr>';
+                return;
+            }
+
+            const activeJobs = await respActive.json() || [];
+            const completedJobs = await respCompleted.json() || [];
+            let all = activeJobs.concat(completedJobs);
+
+            all = all.filter(job => hasRemnantInfo(job.notes) && hasTagInfo(job.notes) && !hasUsedUp(job.notes));
+
+            const fm = filterSoldRemnantMaterialInput.value.trim().toLowerCase();
+            const fc = filterSoldRemnantContractorInput.value.trim().toLowerCase();
+
+            if (fm || fc) {
+                all = all.filter(job => {
+                    const material = (job.material || '').toLowerCase();
+                    const contractor = (job.contractor || '').toLowerCase();
+                    const matchMat = !fm || material.includes(fm);
+                    const matchCont = !fc || contractor.includes(fc);
+                    return matchMat && matchCont;
+                });
+            }
+
+            if (!all || all.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="table-empty">No sold material</td></tr>';
+                return;
+            }
+
+            all.sort((a, b) => {
+                const da = a.installDate || '';
+                const db = b.installDate || '';
+                return db.localeCompare(da);
+            });
+
+            tbody.innerHTML = '';
+            for (const job of all) {
+                const locCode = extractLocationCode(job.notes || '');
+                const locLabel = getLocationLabel(locCode);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${job.id}</td>
+                    <td>${job.contractor || ''}</td>
+                    <td>${job.customer || ''}</td>
+                    <td>${job.material || ''}</td>
+                    <td>${formatDate(job.installDate)}</td>
+                    <td>${locLabel || ''}</td>
+                    <td></td>
+                    <td></td>
+                `;
+
+                const notesTd = tr.children[6];
+                if (notesTd) notesTd.innerHTML = renderNotesWithTag(job.notes || '');
+
+                const actionsTd = tr.children[7];
+
+                const releaseBtn = document.createElement('button');
+                releaseBtn.className = 'btn-sm btn-outline-warning';
+                releaseBtn.textContent = 'Release Tag';
+                releaseBtn.onclick = () => releaseRemnantTag(job);
+                actionsTd.appendChild(releaseBtn);
+
+                const usedUpBtn = document.createElement('button');
+                usedUpBtn.className = 'btn-sm btn-outline-success';
+                usedUpBtn.textContent = 'Used Up';
+                usedUpBtn.onclick = () => markRemnantUsedUp(job);
+                actionsTd.appendChild(usedUpBtn);
+
+                const editLocBtn = document.createElement('button');
+                editLocBtn.className = 'btn-sm btn-outline-warning';
+                editLocBtn.textContent = 'Edit Location';
+                editLocBtn.onclick = () => updateRemnantLocation(job);
+                actionsTd.appendChild(editLocBtn);
+
+                tbody.appendChild(tr);
+            }
+        } catch (err) {
+            soldRemnantsError.textContent = 'Network error: ' + err;
+            tbody.innerHTML = '<tr><td colspan="8" class="table-empty">No sold material</td></tr>';
+        }
+    }
+
+    async function loadUsedUpHistory(){
+        usedUpError.textContent = '';
+        const tbody = document.getElementById('usedUpBody');
+        tbody.innerHTML = '<tr><td colspan="6" class="table-empty">Loading...</td></tr>';
+
+        try{
+            const [respActive, respCompleted] = await Promise.all([
+                fetch('/api/jobs/active', { headers: getAuthHeaders(false) }),
+                fetch('/api/jobs/completed', { headers: getAuthHeaders(false) })
+            ]);
+
+            if(!respActive.ok || !respCompleted.ok){
+                usedUpError.textContent = 'Error loading used up history.';
+                tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No used up items</td></tr>';
+                return;
+            }
+
+            const activeJobs = await respActive.json() || [];
+            const completedJobs = await respCompleted.json() || [];
+            let all = activeJobs.concat(completedJobs);
+
+            let used = all.filter(j => hasRemnantInfo(j.notes) && hasTagInfo(j.notes) && hasUsedUp(j.notes));
+
+            if(!used.length){
+                tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No used up items</td></tr>';
+                return;
+            }
+
+            used.sort((a,b) => (b.id||0) - (a.id||0));
+
+            tbody.innerHTML = '';
+            for(const job of used){
+                const locCode = extractLocationCode(job.notes || '');
+                const locLabel = getLocationLabel(locCode);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${job.id}</td>
+                    <td>${job.contractor || ''}</td>
+                    <td>${job.customer || ''}</td>
+                    <td>${job.material || ''}</td>
+                    <td>${locLabel || ''}</td>
+                    <td>${renderNotesWithTag(job.notes || '')}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }catch(err){
+            usedUpError.textContent = 'Network error: ' + err;
+            tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No used up items</td></tr>';
+        }
+    }
+
+    async function markDone(id) {
+        try {
+            const resp = await fetch(`/api/jobs/${id}/done`, {
+                method: 'PUT',
+                headers: getAuthHeaders(false)
+            });
+            if (!resp.ok) {
+                alert('Error marking as done: HTTP ' + resp.status);
+                return;
+            }
+            await loadAll();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    async function undoDone(id) {
+        try {
+            const resp = await fetch(`/api/jobs/${id}/undo`, {
+                method: 'PUT',
+                headers: getAuthHeaders(false)
+            });
+            if (!resp.ok) {
+                alert('Error undoing: HTTP ' + resp.status);
+                return;
+            }
+            await loadAll();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    async function deleteJob(id) {
+        if (!confirm('Delete this job?')) return;
+        try {
+            const resp = await fetch(`/api/jobs/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(false)
+            });
+            if (!resp.ok) {
+                alert('Error deleting: HTTP ' + resp.status);
+                return;
+            }
+            await loadAll();
+        } catch (err) {
+            alert('Network error: ' + err);
+        }
+    }
+
+    async function loadAll() {
+        await loadActive();
+        await loadCompleted();
+        await loadRemnants();
+        await loadSoldRemnants();
+        await loadUsedUpHistory();
+    }
+
+    setupAutocomplete(contractorInput, contractorSuggestions, '/api/suggestions/contractors');
+    setupAutocomplete(materialInput, materialSuggestions, '/api/suggestions/materials');
+
+    loadAll();
+    showTab('active');
+</script>
+</body>
+</html>
