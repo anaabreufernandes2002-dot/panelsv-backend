@@ -505,6 +505,566 @@
         .attachment-actions {
             margin-top: 6px;
         }
+
+        /* ===== STAGE 4: DESIGN + REPORT UI ===== */
+        .toast {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 9999;
+            min-width: 240px;
+            max-width: 360px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 12px 30px rgba(15,23,42,0.24);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(8px);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #15803d, #16a34a);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(37,99,235,0.22);
+            transition: transform 0.12s ease, box-shadow 0.16s ease, filter 0.16s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.02);
+            box-shadow: 0 14px 28px rgba(37,99,235,0.26);
+        }
+
+        .stage-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .stage-tbl {
+            background: #eef2ff;
+            color: #4338ca;
+            border-color: #c7d2fe;
+        }
+
+        .stage-located {
+            background: #fffbeb;
+            color: #a16207;
+            border-color: #fde68a;
+        }
+
+        .stage-programmed {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #93c5fd;
+        }
+
+        .stage-cut {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c4b5fd;
+        }
+
+        .stage-polished {
+            background: #dcfce7;
+            color: #166534;
+            border-color: #86efac;
+        }
+
+        .id-cell {
+            min-width: 72px;
+        }
+
+        .job-id {
+            font-weight: 800;
+            font-size: 15px;
+            color: #0f172a;
+            line-height: 1.1;
+        }
+
+        .job-time {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.35;
+        }
+
+        .notes-cell {
+            min-width: 170px;
+            max-width: 260px;
+        }
+
+        .notes-text {
+            line-height: 1.55;
+        }
+
+        .actions-cell {
+            min-width: 180px;
+        }
+
+        .actions-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: flex-start;
+        }
+
+        .attachment-cell {
+            min-width: 190px;
+        }
+
+        .attachment-item {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+        }
+
+        .report-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.35);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .report-modal {
+            width: min(560px, 100%);
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 24px 60px rgba(15,23,42,0.22);
+            border: 1px solid #e5e7eb;
+            padding: 18px;
+        }
+
+        .report-modal h3 {
+            margin: 0 0 6px 0;
+            font-family: "Poppins", sans-serif;
+            font-size: 18px;
+            color: #0f172a;
+        }
+
+        .report-modal p {
+            margin: 0 0 14px 0;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .report-textarea {
+            width: 100%;
+            min-height: 120px;
+            resize: vertical;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 13px;
+            font-family: inherit;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+
+        .report-textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 1px rgba(37,99,235,0.25);
+        }
+
+        .report-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #374151;
+            margin-bottom: 14px;
+        }
+
+        .report-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .btn-outline-report {
+            border-color: #60a5fa;
+            color: #1d4ed8;
+            background: #eff6ff;
+        }
+
+        .mobile-label {
+            display: none;
+        }
+
+        @media (max-width: 960px) {
+            .container {
+                padding: 14px;
+            }
+
+            .card {
+                padding: 14px;
+                border-radius: 16px;
+            }
+
+            .field-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                border-radius: 16px;
+                padding: 10px 10px 6px;
+                margin-bottom: 10px;
+            }
+
+            tbody td {
+                padding: 7px 4px;
+                border: none;
+            }
+
+            .mobile-label {
+                display: block;
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                color: #6b7280;
+                margin-bottom: 4px;
+                font-weight: 700;
+            }
+
+            .id-cell {
+                padding-top: 2px;
+            }
+
+            .actions-wrap {
+                gap: 8px;
+            }
+
+            .btn-sm {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .attachment-cell,
+            .notes-cell,
+            .actions-cell {
+                min-width: 0;
+                max-width: none;
+            }
+
+            .topbar {
+                padding: 12px 14px;
+            }
+
+            .topbar-title {
+                font-size: 15px;
+                line-height: 1.2;
+            }
+
+            .topbar-right {
+                font-size: 12px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
+
+
+        .action-menu-wrap {
+            position: relative;
+            display: inline-block;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .btn-outline-neutral {
+            border-color: #cbd5e1;
+            color: #334155;
+            background: #f8fafc;
+        }
+
+        .btn-icon {
+            min-width: 34px;
+            font-weight: 700;
+        }
+
+        .action-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 6px);
+            min-width: 170px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 16px 40px rgba(15,23,42,0.16);
+            padding: 8px;
+            display: none;
+            z-index: 60;
+        }
+
+        .action-dropdown.show {
+            display: block;
+        }
+
+        .action-dropdown button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: transparent;
+            border-radius: 9px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #1f2937;
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+
+        .action-dropdown button:hover {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .details-row td {
+            padding-top: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .job-details-panel {
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: -2px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+
+        .job-details-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .job-details-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .job-details-subtitle {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .job-tab-bar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .job-tab-btn {
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            font-size: 11px;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .job-tab-btn.active {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #93c5fd;
+            font-weight: 700;
+        }
+
+        .job-tab-pane {
+            display: none;
+        }
+
+        .job-tab-pane.active {
+            display: block;
+        }
+
+        .job-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .job-meta-card {
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 12px;
+            padding: 10px 12px;
+        }
+
+        .job-meta-label {
+            font-size: 10px;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .job-meta-value {
+            font-size: 13px;
+            color: #0f172a;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .report-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .report-history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .report-item {
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 12px;
+            padding: 10px 12px;
+        }
+
+        .report-item-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .report-author {
+            font-size: 12px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .report-time {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .report-message {
+            font-size: 13px;
+            color: #334155;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .report-empty {
+            font-size: 12px;
+            color: #64748b;
+            background: #fff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .inline-report-composer {
+            margin-top: 12px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .inline-report-composer textarea {
+            width: 100%;
+            min-height: 84px;
+            resize: vertical;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 10px 12px;
+            box-sizing: border-box;
+            font-size: 13px;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+
+        .inline-report-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .inline-report-actions label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        .detail-toggle-active {
+            background: #dbeafe !important;
+            color: #1d4ed8 !important;
+            border-color: #93c5fd !important;
+        }
+
+        @media (max-width: 900px) {
+            .job-meta-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
 </head>
 <body class="bg-light">
@@ -516,6 +1076,24 @@
     <div class="topbar-right">
         Logged in as <span id="currentUser">Unknown</span>
         <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div id="toast" class="toast success"></div>
+
+<div id="reportModalBackdrop" class="report-modal-backdrop">
+    <div class="report-modal">
+        <h3>Internal Report</h3>
+        <p>Add an internal report for this job. You can also send an alert email to the seller.</p>
+        <textarea id="reportMessage" class="report-textarea" placeholder="Type the update, issue or agreement here..."></textarea>
+        <label class="report-check">
+            <input id="reportSendEmail" type="checkbox">
+            Send alert email to seller
+        </label>
+        <div class="report-actions">
+            <button class="btn-secondary" type="button" onclick="closeReportModal()">Cancel</button>
+            <button class="btn-primary" type="button" onclick="submitReport()">Save Report</button>
+        </div>
     </div>
 </div>
 
@@ -654,7 +1232,7 @@
         </div>
 
         <button id="addJobBtn" class="btn-primary" type="button" onclick="handleNewJobSubmit()">
-            Add Job
+            ➕ Add Job
         </button>
         <button id="cancelEditBtn" class="btn-secondary" type="button" style="display:none;"
                 onclick="cancelEdit()">
@@ -853,7 +1431,7 @@
                 </div>
 
                 <button class="btn-primary" type="button" onclick="handleAddRemnantFormSubmit()">
-                    Add to Stock
+                    ➕ Add to Stock
                 </button>
             </div>
 
@@ -1037,7 +1615,9 @@
     const remFormNotesInput      = document.getElementById('remFormNotes');
     const remFormAttachmentInput = document.getElementById('remFormAttachment');
 
-    const savedUser = localStorage.getItem('username') || 'Unknown';
+    const savedUser = localStorage.getItem('username') || 'Guest';
+    let currentReportJobId = null;
+    let openActionMenuId = null;
     currentUserSpan.textContent = savedUser;
 
     const LOCATION_LABELS = {
@@ -1105,6 +1685,304 @@
         if (!dateStr) return '';
         return dateStr;
     }
+
+    function getStageClass(stage) {
+        switch (stage) {
+            case 'TO_BE_LOCATED': return 'stage-tbl';
+            case 'LOCATED': return 'stage-located';
+            case 'PROGRAMMED': return 'stage-programmed';
+            case 'CUT': return 'stage-cut';
+            case 'POLISHED': return 'stage-polished';
+            default: return 'stage-tbl';
+        }
+    }
+
+    function renderStagePill(stage) {
+        return `<span class="stage-pill ${getStageClass(stage)}">${formatStage(stage)}</span>`;
+    }
+
+    function formatDateTime(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return '';
+        return d.toLocaleString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit'
+        });
+    }
+
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.className = isError ? 'toast error show' : 'toast success show';
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => {
+            toast.className = toast.className.replace(' show', '');
+        }, 2600);
+    }
+
+    function escapeHtml(value) {
+        return String(value || '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+
+    function openReportModal(jobId) {
+        currentReportJobId = jobId;
+        document.getElementById('reportMessage').value = '';
+        document.getElementById('reportSendEmail').checked = false;
+        document.getElementById('reportModalBackdrop').style.display = 'flex';
+        document.getElementById('reportMessage').focus();
+    }
+
+    function closeReportModal() {
+        currentReportJobId = null;
+        document.getElementById('reportModalBackdrop').style.display = 'none';
+    }
+
+    async function submitReport() {
+        const message = document.getElementById('reportMessage').value.trim();
+        const sendEmail = document.getElementById('reportSendEmail').checked;
+
+        if (!currentReportJobId) return;
+        if (!message) {
+            showToast('Please type a report message.', true);
+            return;
+        }
+
+        try {
+            const resp = await fetch(`/api/jobs/${currentReportJobId}/notes`, {
+                method: 'POST',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify({
+                    author: savedUser,
+                    message,
+                    sendEmail
+                })
+            });
+
+            if (!resp.ok) {
+                const text = await resp.text();
+                showToast('Could not save report: ' + (text || resp.status), true);
+                return;
+            }
+
+            closeReportModal();
+            showToast(sendEmail ? 'Report saved and email requested.' : 'Report saved successfully.');
+        } catch (err) {
+            showToast('Network error saving report.', true);
+        }
+    }
+
+
+    function closeAllActionMenus() {
+        document.querySelectorAll('.action-dropdown.show').forEach(el => el.classList.remove('show'));
+        openActionMenuId = null;
+    }
+
+    function toggleActionMenu(jobId) {
+        const menu = document.getElementById(`actionMenu-${jobId}`);
+        if (!menu) return;
+        const willOpen = !menu.classList.contains('show');
+        closeAllActionMenus();
+        if (willOpen) {
+            menu.classList.add('show');
+            openActionMenuId = jobId;
+        }
+    }
+
+    document.addEventListener('click', (evt) => {
+        if (!evt.target.closest('.action-menu-wrap')) {
+            closeAllActionMenus();
+        }
+    });
+
+    function closeJobDetails(jobId) {
+        const detailsRow = document.getElementById(`jobDetailsRow-${jobId}`);
+        const toggleBtn = document.getElementById(`detailToggle-${jobId}`);
+        if (detailsRow) detailsRow.remove();
+        if (toggleBtn) {
+            toggleBtn.classList.remove('detail-toggle-active');
+            toggleBtn.innerHTML = '▾';
+            toggleBtn.title = 'Open details';
+        }
+    }
+
+    function closeAllJobDetails(tableBodyId) {
+        const tbody = document.getElementById(tableBodyId);
+        if (!tbody) return;
+        tbody.querySelectorAll('.details-row').forEach(row => row.remove());
+        tbody.querySelectorAll('.detail-toggle-active').forEach(btn => {
+            btn.classList.remove('detail-toggle-active');
+            btn.innerHTML = '▾';
+            btn.title = 'Open details';
+        });
+    }
+
+    function switchJobTab(jobId, tabName) {
+        document.querySelectorAll(`#jobDetails-${jobId} .job-tab-btn`).forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+        document.querySelectorAll(`#jobDetails-${jobId} .job-tab-pane`).forEach(pane => {
+            pane.classList.toggle('active', pane.dataset.tab === tabName);
+        });
+    }
+
+    function renderReportListHtml(notes) {
+        if (!Array.isArray(notes) || !notes.length) {
+            return '<div class="report-empty">No reports yet for this job.</div>';
+        }
+        return `<div class="report-history-list">${notes.map(note => `
+            <div class="report-item">
+                <div class="report-item-head">
+                    <div class="report-author">${escapeHtml(note.author || 'Unknown')}</div>
+                    <div class="report-time">${formatDateTime(note.createdAt)}</div>
+                </div>
+                <div class="report-message">${escapeHtml(note.message || '')}</div>
+            </div>
+        `).join('')}</div>`;
+    }
+
+    async function loadJobReportsInto(jobId) {
+        const holder = document.getElementById(`jobReports-${jobId}`);
+        if (!holder) return;
+        holder.innerHTML = '<div class="report-empty">Loading reports...</div>';
+        try {
+            const resp = await fetch(`/api/jobs/${jobId}/notes`, { headers: getAuthHeaders(false) });
+            if (!resp.ok) {
+                const text = await resp.text();
+                holder.innerHTML = `<div class="report-empty">Could not load reports. ${escapeHtml(text || '')}</div>`;
+                return;
+            }
+            const notes = await resp.json();
+            holder.innerHTML = renderReportListHtml(notes);
+        } catch (err) {
+            holder.innerHTML = '<div class="report-empty">Network error loading reports.</div>';
+        }
+    }
+
+    async function submitInlineReport(jobId) {
+        const textarea = document.getElementById(`inlineReportMessage-${jobId}`);
+        const sendEmailEl = document.getElementById(`inlineReportEmail-${jobId}`);
+        if (!textarea) return;
+        const message = textarea.value.trim();
+        const sendEmail = !!(sendEmailEl && sendEmailEl.checked);
+        if (!message) {
+            showToast('Please type a report message.', true);
+            return;
+        }
+        try {
+            const resp = await fetch(`/api/jobs/${jobId}/notes`, {
+                method: 'POST',
+                headers: getAuthHeaders(true),
+                body: JSON.stringify({
+                    author: savedUser,
+                    message,
+                    sendEmail
+                })
+            });
+            if (!resp.ok) {
+                const text = await resp.text();
+                showToast('Could not save report: ' + (text || resp.status), true);
+                return;
+            }
+            textarea.value = '';
+            if (sendEmailEl) sendEmailEl.checked = false;
+            await loadJobReportsInto(jobId);
+            showToast(sendEmail ? 'Report saved and email requested.' : 'Report saved successfully.');
+        } catch (err) {
+            showToast('Network error saving report.', true);
+        }
+    }
+
+    function buildJobDetailsRow(job, colspan, tableBodyId) {
+        const detailsRow = document.createElement('tr');
+        detailsRow.className = 'details-row';
+        detailsRow.id = `jobDetailsRow-${job.id}`;
+        detailsRow.innerHTML = `
+            <td colspan="${colspan}">
+                <div class="job-details-panel" id="jobDetails-${job.id}">
+                    <div class="job-details-top">
+                        <div>
+                            <div class="job-details-title">Job #${job.id} details</div>
+                            <div class="job-details-subtitle">Created ${formatDateTime(job.createdAt)} • Seller: ${escapeHtml(job.seller || '—')}</div>
+                        </div>
+                        <button class="btn-sm btn-outline-report" type="button" onclick="openReportModal(${job.id})">+ Quick report</button>
+                    </div>
+
+                    <div class="job-tab-bar">
+                        <button class="job-tab-btn active" type="button" data-tab="overview" onclick="switchJobTab(${job.id}, 'overview')">Overview</button>
+                        <button class="job-tab-btn" type="button" data-tab="reports" onclick="switchJobTab(${job.id}, 'reports')">Reports</button>
+                        <button class="job-tab-btn" type="button" data-tab="attachments" onclick="switchJobTab(${job.id}, 'attachments')">Attachments</button>
+                    </div>
+
+                    <div class="job-tab-pane active" data-tab="overview">
+                        <div class="job-meta-grid">
+                            <div class="job-meta-card">
+                                <div class="job-meta-label">Notes</div>
+                                <div class="job-meta-value">${escapeHtml(stripOnHoldText(job.notes || '') || '—')}</div>
+                            </div>
+                            <div class="job-meta-card">
+                                <div class="job-meta-label">Install</div>
+                                <div class="job-meta-value">${escapeHtml(formatDate(job.installDate) || '—')}</div>
+                            </div>
+                            <div class="job-meta-card">
+                                <div class="job-meta-label">Status</div>
+                                <div class="job-meta-value">${formatStage(job.stage)}${isJobOnHold(job) ? ' • ON HOLD' : ''}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="job-tab-pane" data-tab="reports">
+                        <div class="report-toolbar">
+                            <div class="job-details-title">Reports history</div>
+                            <button class="btn-sm btn-outline-report" type="button" onclick="openReportModal(${job.id})">Open modal</button>
+                        </div>
+                        <div id="jobReports-${job.id}"></div>
+                        <div class="inline-report-composer">
+                            <textarea id="inlineReportMessage-${job.id}" placeholder="Write an internal report, change, issue, or agreement here..."></textarea>
+                            <div class="inline-report-actions">
+                                <label><input type="checkbox" id="inlineReportEmail-${job.id}"> Send alert email to seller</label>
+                                <button class="btn-primary" type="button" onclick="submitInlineReport(${job.id})">Save report</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="job-tab-pane" data-tab="attachments">
+                        ${renderAttachmentCell(job)}
+                    </div>
+                </div>
+            </td>
+        `;
+        loadJobReportsInto(job.id);
+        return detailsRow;
+    }
+
+    function toggleJobDetails(job, tableBodyId, colspan) {
+        const existing = document.getElementById(`jobDetailsRow-${job.id}`);
+        const toggleBtn = document.getElementById(`detailToggle-${job.id}`);
+        if (existing) {
+            closeJobDetails(job.id);
+            return;
+        }
+        closeAllJobDetails(tableBodyId);
+        const anchorRow = document.getElementById(`jobRow-${job.id}`);
+        if (!anchorRow) return;
+        const detailsRow = buildJobDetailsRow(job, colspan, tableBodyId);
+        anchorRow.insertAdjacentElement('afterend', detailsRow);
+        if (toggleBtn) {
+            toggleBtn.classList.add('detail-toggle-active');
+            toggleBtn.innerHTML = '▴';
+            toggleBtn.title = 'Hide details';
+        }
+    }
+
 
     function getPriorityInfo(dateStr) {
         if (!dateStr) return { label: '', className: '', rowClass: '' };
@@ -1371,6 +2249,7 @@
                 alert('Error updating location: HTTP ' + resp.status + ' - ' + t);
                 return;
             }
+            showToast('Stock material added successfully.');
             await loadRemnants();
             await loadSoldRemnants();
             await loadUsedUpHistory();
@@ -1490,6 +2369,7 @@
                 alert('Error tagging material: HTTP ' + resp.status + ' - ' + text);
                 return;
             }
+            showToast('Stock material added successfully.');
             await loadRemnants();
             await loadSoldRemnants();
             await loadUsedUpHistory();
@@ -1526,6 +2406,7 @@
                 alert('Error releasing tag: HTTP ' + resp.status + ' - ' + text);
                 return;
             }
+            showToast('Stock material added successfully.');
             await loadRemnants();
             await loadSoldRemnants();
             await loadUsedUpHistory();
@@ -1723,6 +2604,9 @@
     });
 
     function showTab(which) {
+        closeAllActionMenus();
+        closeAllJobDetails('activeJobsBody');
+        closeAllJobDetails('completedJobsBody');
         activeCard.style.display = 'none';
         completedCard.style.display = 'none';
         remnantsCard.style.display = 'none';
@@ -1945,6 +2829,7 @@
 
             resetForm();
             await loadAll();
+            showToast(editingJobId === null ? 'Job saved successfully.' : 'Job updated successfully.');
         } catch (err) {
             newJobError.textContent = 'Network error: ' + err;
         }
@@ -2019,6 +2904,7 @@
             remFormNotesInput.value     = '';
             if (remFormAttachmentInput) remFormAttachmentInput.value = '';
 
+            showToast('Stock material added successfully.');
             await loadRemnants();
             await loadSoldRemnants();
             await loadUsedUpHistory();
@@ -2078,51 +2964,73 @@
                 const newFlag = isNewJob(job);
 
                 tr.innerHTML = `
-                    <td>${job.id}</td>
-                    <td>${job.contractor || ''}</td>
-                    <td>${job.customer || ''}</td>
-                    <td>${job.material || ''}</td>
-                    <td>${job.seller || ''}</td>
+                    <td class="id-cell">
+                        <div class="mobile-label">ID</div>
+                        <div class="job-id">#${job.id}</div>
+                        <div class="job-time">${formatDateTime(job.createdAt)}</div>
+                    </td>
+                    <td><div class="mobile-label">Contractor</div>${job.contractor || ''}</td>
+                    <td><div class="mobile-label">Customer</div>${job.customer || ''}</td>
+                    <td><div class="mobile-label">Material</div>${job.material || ''}</td>
+                    <td><div class="mobile-label">Seller</div>${job.seller || ''}</td>
                     <td>
-                        ${formatStage(job.stage)}
+                        <div class="mobile-label">Stage</div>
+                        ${renderStagePill(job.stage)}
                         ${onHold ? `<div class="tag-onhold">ON HOLD${holdReason ? ' – ' + holdReason : ''}</div>` : ''}
                     </td>
                     <td>
+                        <div class="mobile-label">Install Date</div>
                         ${formatDate(job.installDate)}
                         ${priority.label ? `<div class="priority-pill ${priority.className}">${priority.label}</div>` : ''}
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="notes-cell"><div class="mobile-label">Notes</div><div class="notes-text"></div></td>
+                    <td><div class="mobile-label">Attachments</div></td>
+                    <td class="actions-cell"><div class="mobile-label">Actions</div><div class="actions-wrap"></div></td>
                 `;
 
                 if (priority.rowClass) tr.classList.add(priority.rowClass);
 
                 const notesTd = tr.children[7];
-                if (notesTd) notesTd.innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
+                if (notesTd) notesTd.querySelector('.notes-text').innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
 
                 const attachmentTd = tr.children[8];
-                if (attachmentTd) attachmentTd.innerHTML = renderAttachmentCell(job);
+                if (attachmentTd) attachmentTd.innerHTML += renderAttachmentCell(job);
 
-                const actionsTd = tr.children[9];
+                tr.id = `jobRow-${job.id}`;
+                const actionsTd = tr.children[9].querySelector('.actions-wrap');
 
-                const editBtn = document.createElement('button');
-                editBtn.className = 'btn-sm btn-outline-warning';
-                editBtn.textContent = 'Edit';
-                editBtn.onclick = () => startEditJob(job);
-                actionsTd.appendChild(editBtn);
+                const detailBtn = document.createElement('button');
+                detailBtn.id = `detailToggle-${job.id}`;
+                detailBtn.className = 'btn-sm btn-outline-neutral btn-icon';
+                detailBtn.innerHTML = '▾';
+                detailBtn.title = 'Open details';
+                detailBtn.onclick = () => toggleJobDetails(job, 'activeJobsBody', 10);
+                actionsTd.appendChild(detailBtn);
 
-                const holdBtn = document.createElement('button');
-                holdBtn.className = 'btn-sm btn-outline-hold';
-                holdBtn.textContent = onHold ? 'Clear Hold' : 'On Hold';
-                holdBtn.onclick = () => toggleOnHold(job);
-                actionsTd.appendChild(holdBtn);
+                const menuWrap = document.createElement('div');
+                menuWrap.className = 'action-menu-wrap';
+                menuWrap.innerHTML = `
+                    <button class="btn-sm btn-outline-neutral" type="button">Actions ▾</button>
+                    <div class="action-dropdown" id="actionMenu-${job.id}"></div>
+                `;
+                menuWrap.querySelector('button').onclick = () => toggleActionMenu(job.id);
+                const menu = menuWrap.querySelector('.action-dropdown');
 
-                const doneBtn = document.createElement('button');
-                doneBtn.className = 'btn-sm btn-outline-success';
-                doneBtn.textContent = 'Done';
-                doneBtn.onclick = () => markDone(job.id);
-                actionsTd.appendChild(doneBtn);
+                function addMenuItem(label, handler) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.textContent = label;
+                    btn.onclick = () => {
+                        closeAllActionMenus();
+                        handler();
+                    };
+                    menu.appendChild(btn);
+                }
+
+                addMenuItem('Edit job', () => startEditJob(job));
+                addMenuItem('Add report', () => openReportModal(job.id));
+                addMenuItem(onHold ? 'Clear hold' : 'Put on hold', () => toggleOnHold(job));
+                addMenuItem('Mark done', () => markDone(job.id));
 
                 const username = savedUser || '';
                 const seller = (job.seller || '').toLowerCase();
@@ -2131,12 +3039,10 @@
                 const isOwner = seller && seller === userLower;
 
                 if (isAdmin || isOwner) {
-                    const delBtn = document.createElement('button');
-                    delBtn.className = 'btn-sm btn-outline-danger';
-                    delBtn.textContent = 'Delete';
-                    delBtn.onclick = () => deleteJob(job.id);
-                    actionsTd.appendChild(delBtn);
+                    addMenuItem('Delete job', () => deleteJob(job.id));
                 }
+
+                actionsTd.appendChild(menuWrap);
 
                 tbody.appendChild(tr);
             }
@@ -2189,40 +3095,66 @@
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${job.id}</td>
-                    <td>${job.contractor || ''}</td>
-                    <td>${job.customer || ''}</td>
-                    <td>${job.material || ''}</td>
-                    <td>${job.seller || ''}</td>
+                    <td class="id-cell">
+                        <div class="mobile-label">ID</div>
+                        <div class="job-id">#${job.id}</div>
+                        <div class="job-time">${formatDateTime(job.createdAt)}</div>
+                    </td>
+                    <td><div class="mobile-label">Contractor</div>${job.contractor || ''}</td>
+                    <td><div class="mobile-label">Customer</div>${job.customer || ''}</td>
+                    <td><div class="mobile-label">Material</div>${job.material || ''}</td>
+                    <td><div class="mobile-label">Seller</div>${job.seller || ''}</td>
                     <td>
-                        ${formatStage(job.stage)}
+                        <div class="mobile-label">Stage</div>
+                        ${renderStagePill(job.stage)}
                         ${onHold ? `<div class="tag-onhold">ON HOLD${holdReason ? ' – ' + holdReason : ''}</div>` : ''}
                     </td>
-                    <td>${formatDate(job.installDate)}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><div class="mobile-label">Install Date</div>${formatDate(job.installDate)}</td>
+                    <td class="notes-cell"><div class="mobile-label">Notes</div><div class="notes-text"></div></td>
+                    <td><div class="mobile-label">Attachments</div></td>
+                    <td class="actions-cell"><div class="mobile-label">Actions</div><div class="actions-wrap"></div></td>
                 `;
 
                 const notesTd = tr.children[7];
-                if (notesTd) notesTd.innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
+                if (notesTd) notesTd.querySelector('.notes-text').innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
 
                 const attachmentTd = tr.children[8];
-                if (attachmentTd) attachmentTd.innerHTML = renderAttachmentCell(job);
+                if (attachmentTd) attachmentTd.innerHTML += renderAttachmentCell(job);
 
-                const actionsTd = tr.children[9];
+                tr.id = `jobRow-${job.id}`;
+                const actionsTd = tr.children[9].querySelector('.actions-wrap');
 
-                const editBtn = document.createElement('button');
-                editBtn.className = 'btn-sm btn-outline-warning';
-                editBtn.textContent = 'Edit';
-                editBtn.onclick = () => startEditJob(job);
-                actionsTd.appendChild(editBtn);
+                const detailBtn = document.createElement('button');
+                detailBtn.id = `detailToggle-${job.id}`;
+                detailBtn.className = 'btn-sm btn-outline-neutral btn-icon';
+                detailBtn.innerHTML = '▾';
+                detailBtn.title = 'Open details';
+                detailBtn.onclick = () => toggleJobDetails(job, 'completedJobsBody', 10);
+                actionsTd.appendChild(detailBtn);
 
-                const undoBtn = document.createElement('button');
-                undoBtn.className = 'btn-sm btn-outline-success';
-                undoBtn.textContent = 'Undo';
-                undoBtn.onclick = () => undoDone(job.id);
-                actionsTd.appendChild(undoBtn);
+                const menuWrap = document.createElement('div');
+                menuWrap.className = 'action-menu-wrap';
+                menuWrap.innerHTML = `
+                    <button class="btn-sm btn-outline-neutral" type="button">Actions ▾</button>
+                    <div class="action-dropdown" id="actionMenu-${job.id}"></div>
+                `;
+                menuWrap.querySelector('button').onclick = () => toggleActionMenu(job.id);
+                const menu = menuWrap.querySelector('.action-dropdown');
+
+                function addMenuItem(label, handler) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.textContent = label;
+                    btn.onclick = () => {
+                        closeAllActionMenus();
+                        handler();
+                    };
+                    menu.appendChild(btn);
+                }
+
+                addMenuItem('Edit job', () => startEditJob(job));
+                addMenuItem('Add report', () => openReportModal(job.id));
+                addMenuItem('Undo completed', () => undoDone(job.id));
 
                 const username = savedUser || '';
                 const seller = (job.seller || '').toLowerCase();
@@ -2231,12 +3163,10 @@
                 const isOwner = seller && seller === userLower;
 
                 if (isAdmin || isOwner) {
-                    const delBtn = document.createElement('button');
-                    delBtn.className = 'btn-sm btn-outline-danger';
-                    delBtn.textContent = 'Delete';
-                    delBtn.onclick = () => deleteJob(job.id);
-                    actionsTd.appendChild(delBtn);
+                    addMenuItem('Delete job', () => deleteJob(job.id));
                 }
+
+                actionsTd.appendChild(menuWrap);
 
                 tbody.appendChild(tr);
             }
@@ -2521,6 +3451,7 @@
                 return;
             }
             await loadAll();
+            showToast('Job marked as done.');
         } catch (err) {
             alert('Network error: ' + err);
         }
@@ -2537,6 +3468,7 @@
                 return;
             }
             await loadAll();
+            showToast('Job moved back to active.');
         } catch (err) {
             alert('Network error: ' + err);
         }
@@ -2554,6 +3486,7 @@
                 return;
             }
             await loadAll();
+            showToast('Job deleted.');
         } catch (err) {
             alert('Network error: ' + err);
         }
@@ -2566,6 +3499,10 @@
         await loadSoldRemnants();
         await loadUsedUpHistory();
     }
+
+    document.getElementById('reportModalBackdrop').addEventListener('click', (e) => {
+        if (e.target.id === 'reportModalBackdrop') closeReportModal();
+    });
 
     setupAutocomplete(contractorInput, contractorSuggestions, '/api/suggestions/contractors');
     setupAutocomplete(materialInput, materialSuggestions, '/api/suggestions/materials');

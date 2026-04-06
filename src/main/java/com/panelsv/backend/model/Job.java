@@ -2,6 +2,7 @@ package com.panelsv.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,15 @@ public class Job {
     private String contractor;
     private String customer;
     private String material;
-
     private String seller;
 
     @Enumerated(EnumType.STRING)
     private Stage stage;
 
+    @Column(name = "install_date")
     private String installDate;
 
+    @Column(columnDefinition = "TEXT")
     private String notes;
 
     private boolean completed;

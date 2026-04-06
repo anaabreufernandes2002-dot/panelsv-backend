@@ -1,18 +1,12 @@
 package com.panelsv.backend.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.LocalDate;
-
 public class JobRequest {
 
     private String contractor;
     private String customer;
     private String material;
     private String stage;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate installDate; // ✅ agora é LocalDate
-
+    private String installDate;
     private String notes;
     private String seller;
 
@@ -48,11 +42,11 @@ public class JobRequest {
         this.stage = stage;
     }
 
-    public LocalDate getInstallDate() {
+    public String getInstallDate() {
         return installDate;
     }
 
-    public void setInstallDate(LocalDate installDate) {
+    public void setInstallDate(String installDate) {
         this.installDate = installDate;
     }
 
