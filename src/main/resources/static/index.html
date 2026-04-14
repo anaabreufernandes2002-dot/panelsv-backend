@@ -10,6 +10,37 @@
 
     <title>Fabrication Tracking Panel - Stone Valley</title>
     <style>
+        .report-summary {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #d1d5db;
+        }
+
+        .report-chip {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            margin-bottom: 6px;
+        }
+
+        .report-last {
+            font-size: 12px;
+            color: #334155;
+            line-height: 1.45;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .report-last-empty {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
         body {
             margin: 0;
             font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -1773,7 +1804,11 @@
                 return;
             }
 
+            const jobId = currentReportJobId;
+
             closeReportModal();
+            await loadReportSummaryInto(jobId);
+            await loadJobReportsInto(jobId);
             showToast(sendEmail ? 'Report saved and email requested.' : 'Report saved successfully.');
         } catch (err) {
             showToast('Network error saving report.', true);
@@ -1849,6 +1884,42 @@
         `).join('')}</div>`;
     }
 
+
+    function renderReportSummaryHtml(notes) {
+        if (!Array.isArray(notes) || !notes.length) {
+            return `<div class="report-summary"><div class="report-last-empty">No reports yet.</div></div>`;
+        }
+
+        const latest = notes[0];
+        const count = notes.length;
+        const preview = escapeHtml(latest.message || '');
+
+        return `
+            <div class="report-summary">
+                <div class="report-chip">${count} report${count === 1 ? '' : 's'}</div>
+                <div class="report-last"><strong>Last:</strong> ${preview}</div>
+            </div>
+        `;
+    }
+
+    async function loadReportSummaryInto(jobId) {
+        const holder = document.getElementById(`reportSummary-${jobId}`);
+        if (!holder) return;
+
+        try {
+            const resp = await fetch(`/api/jobs/${jobId}/notes`, { headers: getAuthHeaders(false) });
+            if (!resp.ok) {
+                holder.innerHTML = `<div class="report-last-empty">Could not load reports.</div>`;
+                return;
+            }
+
+            const notes = await resp.json();
+            holder.innerHTML = renderReportSummaryHtml(notes);
+        } catch (err) {
+            holder.innerHTML = `<div class="report-last-empty">Network error loading reports.</div>`;
+        }
+    }
+
     async function loadJobReportsInto(jobId) {
         const holder = document.getElementById(`jobReports-${jobId}`);
         if (!holder) return;
@@ -1895,6 +1966,7 @@
             textarea.value = '';
             if (sendEmailEl) sendEmailEl.checked = false;
             await loadJobReportsInto(jobId);
+            await loadReportSummaryInto(jobId);
             showToast(sendEmail ? 'Report saved and email requested.' : 'Report saved successfully.');
         } catch (err) {
             showToast('Network error saving report.', true);
@@ -2991,7 +3063,12 @@
                 if (priority.rowClass) tr.classList.add(priority.rowClass);
 
                 const notesTd = tr.children[7];
-                if (notesTd) notesTd.querySelector('.notes-text').innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
+                if (notesTd) {
+                    notesTd.querySelector('.notes-text').innerHTML =
+                        renderNotes(stripOnHoldText(job.notes || ''), true, newFlag) +
+                        `<div id="reportSummary-${job.id}"></div>`;
+                    loadReportSummaryInto(job.id);
+                }
 
                 const attachmentTd = tr.children[8];
                 if (attachmentTd) attachmentTd.innerHTML += renderAttachmentCell(job);
@@ -3116,7 +3193,12 @@
                 `;
 
                 const notesTd = tr.children[7];
-                if (notesTd) notesTd.querySelector('.notes-text').innerHTML = renderNotes(stripOnHoldText(job.notes || ''), true, newFlag);
+                if (notesTd) {
+                    notesTd.querySelector('.notes-text').innerHTML =
+                        renderNotes(stripOnHoldText(job.notes || ''), true, newFlag) +
+                        `<div id="reportSummary-${job.id}"></div>`;
+                    loadReportSummaryInto(job.id);
+                }
 
                 const attachmentTd = tr.children[8];
                 if (attachmentTd) attachmentTd.innerHTML += renderAttachmentCell(job);
