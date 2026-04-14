@@ -1,0 +1,38 @@
+package com.panelsv.backend.config;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.Arrays;
+
+@Configuration
+public class PostgresHotfixConfig {
+
+    @Bean
+    CommandLineRunner fixRailwayPostgresSchema(JdbcTemplate jdbcTemplate, Environment environment) {
+        return args -> {
+            boolean isProd = Arrays.asList(environment.getActiveProfiles()).contains("prod");
+
+            if (!isProd) {
+                return;
+            }
+
+            try {
+                jdbcTemplate.execute("ALTER TABLE job_attachment ADD COLUMN IF NOT EXISTS file_url TEXT");
+                System.out.println("OK: file_url checked/created");
+            } catch (Exception e) {
+                System.out.println("WARN: could not create file_url column: " + e.getMessage());
+            }
+
+            try {
+                jdbcTemplate.execute("ALTER TABLE job_attachment ALTER COLUMN file_path DROP NOT NULL");
+                System.out.println("OK: file_path is no longer required");
+            } catch (Exception e) {
+                System.out.println("WARN: could not alter file_path column: " + e.getMessage());
+            }
+        };
+    }
+}
