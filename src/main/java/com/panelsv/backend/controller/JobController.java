@@ -1,24 +1,22 @@
 package com.panelsv.backend.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.panelsv.backend.controller.dto.JobRequest;
 import com.panelsv.backend.model.Job;
 import com.panelsv.backend.model.JobAttachment;
 import com.panelsv.backend.repository.JobAttachmentRepository;
 import com.panelsv.backend.repository.JobRepository;
 import com.panelsv.backend.service.JobService;
-import org.springframework.beans.factory.annotation.Value;
+import jakarta.transaction.Transactional;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -27,16 +25,16 @@ public class JobController {
     private final JobService svc;
     private final JobRepository jobRepository;
     private final JobAttachmentRepository attachmentRepository;
-
-    @Value("${app.upload-dir}")
-    private String uploadDir;
+    private final Cloudinary cloudinary;
 
     public JobController(JobService svc,
                          JobRepository jobRepository,
-                         JobAttachmentRepository attachmentRepository) {
+                         JobAttachmentRepository attachmentRepository,
+                         Cloudinary cloudinary) {
         this.svc = svc;
         this.jobRepository = jobRepository;
         this.attachmentRepository = attachmentRepository;
+        this.cloudinary = cloudinary;
     }
 
     @GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,13 +61,14 @@ public class JobController {
     }
 
     @PostMapping(value = "/{id}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Transactional
     public ResponseEntity<?> uploadAttachment(@PathVariable Long id,
                                               @RequestParam("file") MultipartFile file) throws IOException {
 
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
 
-        if (file.isEmpty()) {
+        if (file == null || file.isEmpty()) {
             return ResponseEntity.badRequest().body("No file selected");
         }
 
@@ -81,53 +80,49 @@ public class JobController {
             return ResponseEntity.badRequest().body("Only image or PDF files are allowed");
         }
 
-        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
+        Map<?, ?> uploadResult = cloudinary.uploader().upload(
+                file.getBytes(),
+                ObjectUtils.asMap(
+                        "resource_type", "auto",
+                        "folder", "panelsv/jobs/" + id
+                )
+        );
 
-        String originalName = file.getOriginalFilename() == null ? "file" : file.getOriginalFilename();
-        String safeOriginalName = originalName.replaceAll("[^a-zA-Z0-9\\.\\-_]", "_");
-        String safeName = UUID.randomUUID() + "_" + safeOriginalName;
-
-        Path filePath = uploadPath.resolve(safeName).normalize();
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        String secureUrl = (String) uploadResult.get("secure_url");
+        String publicId = (String) uploadResult.get("public_id");
 
         JobAttachment attachment = new JobAttachment();
-        attachment.setFileName(originalName);
-        attachment.setStoredName(safeName);
+        attachment.setFileName(file.getOriginalFilename());
+        attachment.setStoredName(publicId);
         attachment.setContentType(contentType);
+        attachment.setFileUrl(secureUrl);
         attachment.setJob(job);
 
-        job.addAttachment(attachment);
-        jobRepository.save(job);
+        JobAttachment saved = attachmentRepository.save(attachment);
 
-        return ResponseEntity.ok(attachment);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{jobId}/upload/{attachmentId}")
+    @Transactional
     public ResponseEntity<?> deleteAttachment(@PathVariable Long jobId,
                                               @PathVariable Long attachmentId) throws IOException {
 
-        Job job = jobRepository.findById(jobId)
-                .orElseThrow(() -> new RuntimeException("Job not found"));
+        JobAttachment attachment = attachmentRepository.findByIdAndJob_Id(attachmentId, jobId)
+                .orElseThrow(() -> new RuntimeException("Attachment not found for this job"));
 
-        JobAttachment attachment = attachmentRepository.findById(attachmentId)
-                .orElseThrow(() -> new RuntimeException("Attachment not found"));
+        String resourceType = resolveResourceType(attachment.getContentType());
 
-        if (attachment.getJob() == null || !attachment.getJob().getId().equals(job.getId())) {
-            return ResponseEntity.badRequest().body("Attachment does not belong to this job");
+        if (attachment.getStoredName() != null && !attachment.getStoredName().isBlank()) {
+            cloudinary.uploader().destroy(
+                    attachment.getStoredName(),
+                    ObjectUtils.asMap(
+                            "resource_type", resourceType,
+                            "invalidate", true
+                    )
+            );
         }
 
-        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-        Path filePath = uploadPath.resolve(attachment.getStoredName()).normalize();
-
-        Files.deleteIfExists(filePath);
-
-        job.removeAttachment(attachment);
-        jobRepository.save(job);
-
-        // apaga o registro no banco de forma explícita
         attachmentRepository.delete(attachment);
 
         return ResponseEntity.ok("Attachment deleted successfully");
@@ -149,5 +144,12 @@ public class JobController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         svc.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private String resolveResourceType(String contentType) {
+        if (contentType != null && contentType.startsWith("image/")) {
+            return "image";
+        }
+        return "raw";
     }
 }

@@ -20,6 +20,9 @@ public class JobAttachment {
     @Column(name = "content_type")
     private String contentType;
 
+    @Column(name = "file_url", columnDefinition = "TEXT")
+    private String fileUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
     @JsonBackReference
@@ -55,6 +58,14 @@ public class JobAttachment {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     public Job getJob() {

@@ -3,6 +3,8 @@ package com.panelsv.backend.service;
 import com.panelsv.backend.controller.dto.JobRequest;
 import com.panelsv.backend.model.Job;
 import com.panelsv.backend.model.Stage;
+import com.panelsv.backend.repository.JobAttachmentRepository;
+import com.panelsv.backend.repository.JobNoteRepository;
 import com.panelsv.backend.repository.JobRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,15 @@ import java.util.List;
 public class JobService {
 
     private final JobRepository repo;
+    private final JobAttachmentRepository jobAttachmentRepository;
+    private final JobNoteRepository jobNoteRepository;
 
-    public JobService(JobRepository repo) {
+    public JobService(JobRepository repo,
+                      JobAttachmentRepository jobAttachmentRepository,
+                      JobNoteRepository jobNoteRepository) {
         this.repo = repo;
+        this.jobAttachmentRepository = jobAttachmentRepository;
+        this.jobNoteRepository = jobNoteRepository;
     }
 
     private Stage parseStage(String value) {
@@ -25,8 +33,6 @@ public class JobService {
         return Stage.valueOf(value.toUpperCase().replace(' ', '_'));
     }
 
-    // ============ LISTAGEM ============
-
     public List<Job> listActive() {
         return repo.findAllByCompletedFalseOrderByInstallDateAscIdAsc();
     }
@@ -34,8 +40,6 @@ public class JobService {
     public List<Job> listCompleted() {
         return repo.findAllByCompletedTrueOrderByInstallDateAscIdAsc();
     }
-
-    // ============ CRIAR ============
 
     @Transactional
     public Job create(JobRequest req) {
@@ -46,51 +50,51 @@ public class JobService {
         j.setStage(parseStage(req.getStage()));
         j.setInstallDate(req.getInstallDate());
         j.setNotes(req.getNotes());
+        j.setSeller(req.getSeller());
         j.setCompleted(false);
+        return repo.save(j);
+    }
 
-        // aqui gravamos quem criou o job (pode vir nulo se algo falhar no front)
+    @Transactional
+    public Job update(Long id, JobRequest req) {
+        Job j = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        j.setContractor(req.getContractor());
+        j.setCustomer(req.getCustomer());
+        j.setMaterial(req.getMaterial());
+        j.setStage(parseStage(req.getStage()));
+        j.setInstallDate(req.getInstallDate());
+        j.setNotes(req.getNotes());
         j.setSeller(req.getSeller());
 
         return repo.save(j);
     }
 
-    // ============ EDITAR ============
-
     @Transactional
-    public Job update(long id, JobRequest req) {
-        Job j = repo.findById(id).orElseThrow();
-
-        if (req.getContractor() != null) j.setContractor(req.getContractor());
-        if (req.getCustomer() != null) j.setCustomer(req.getCustomer());
-        if (req.getMaterial() != null) j.setMaterial(req.getMaterial());
-        if (req.getStage() != null) j.setStage(parseStage(req.getStage()));
-        if (req.getInstallDate() != null) j.setInstallDate(req.getInstallDate());
-        if (req.getNotes() != null) j.setNotes(req.getNotes());
-
-        // se algum dia quiser mudar o seller manualmente:
-        if (req.getSeller() != null) j.setSeller(req.getSeller());
-
-        return repo.save(j);
-    }
-
-    // ============ DONE / UNDO / DELETE ============
-
-    @Transactional
-    public void markDone(long id) {
-        Job j = repo.findById(id).orElseThrow();
+    public void markDone(Long id) {
+        Job j = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
         j.setCompleted(true);
         repo.save(j);
     }
 
     @Transactional
-    public void undoDone(long id) {
-        Job j = repo.findById(id).orElseThrow();
+    public void undoDone(Long id) {
+        Job j = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
         j.setCompleted(false);
         repo.save(j);
     }
 
     @Transactional
-    public void delete(long id) {
-        repo.deleteById(id);
+    public void delete(Long id) {
+        Job job = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        jobNoteRepository.deleteByJobId(id);
+        jobAttachmentRepository.deleteByJobId(id);
+
+        repo.delete(job);
     }
 }
