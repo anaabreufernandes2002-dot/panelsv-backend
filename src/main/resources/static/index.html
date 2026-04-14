@@ -1884,7 +1884,6 @@
         `).join('')}</div>`;
     }
 
-
     function renderReportSummaryHtml(notes) {
         if (!Array.isArray(notes) || !notes.length) {
             return `<div class="report-summary"><div class="report-last-empty">No reports yet.</div></div>`;
@@ -2032,7 +2031,6 @@
                 </div>
             </td>
         `;
-        loadJobReportsInto(job.id);
         return detailsRow;
     }
 
@@ -2048,6 +2046,10 @@
         if (!anchorRow) return;
         const detailsRow = buildJobDetailsRow(job, colspan, tableBodyId);
         anchorRow.insertAdjacentElement('afterend', detailsRow);
+
+        loadJobReportsInto(job.id);
+        loadReportSummaryInto(job.id);
+
         if (toggleBtn) {
             toggleBtn.classList.add('detail-toggle-active');
             toggleBtn.innerHTML = '▴';
