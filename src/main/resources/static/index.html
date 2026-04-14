@@ -2073,7 +2073,7 @@
         }
 
         for (const att of attachments) {
-            const fileUrl = `/uploads/${att.storedName}`;
+            const fileUrl = att.fileUrl || `/uploads/${att.storedName}`;
             const isPdf = (att.contentType || '').toLowerCase() === 'application/pdf' || /\.pdf$/i.test(att.storedName || '');
 
             html += `<div class="attachment-item">`;
